@@ -8,5 +8,5 @@ website: https://oxod.nl
 
 commands:
   oxmines:
-    description: Main OxMines command
+    description: OxMines plugin
     usage: /<command> <subcommand> [args]
