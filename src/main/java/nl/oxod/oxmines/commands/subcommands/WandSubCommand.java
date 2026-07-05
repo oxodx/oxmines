@@ -1,7 +1,8 @@
 package nl.oxod.oxmines.commands.subcommands;
 
 import java.util.Arrays;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,8 +12,10 @@ import nl.oxod.oxmines.messages.Messages;
 
 /** Subcommand to give the player a wand for selecting mine regions. */
 public class WandSubCommand extends SubCommand {
-  public static final String WAND_NAME = ChatColor.GOLD + "Mine Wand";
-  public static final String WAND_LORE = ChatColor.GRAY + "Left-click: pos1, Right-click: pos2";
+  public static final Component WAND_NAME = MiniMessage.miniMessage()
+      .deserialize("<gold>Mine Wand</gold>");
+  public static final Component WAND_LORE = MiniMessage.miniMessage()
+      .deserialize("<gray>Left-click: pos1, Right-click: pos2</gray>");
 
   @Override
   public String getName() {
@@ -43,8 +46,8 @@ public class WandSubCommand extends SubCommand {
 
     ItemStack wand = new ItemStack(Material.STICK);
     ItemMeta meta = wand.getItemMeta();
-    meta.setDisplayName(WAND_NAME);
-    meta.setLore(Arrays.asList(WAND_LORE));
+    meta.displayName(WAND_NAME);
+    meta.lore(Arrays.asList(WAND_LORE));
     wand.setItemMeta(meta);
 
     player.getInventory().addItem(wand);

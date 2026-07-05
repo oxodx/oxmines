@@ -68,7 +68,6 @@ public class WandListener implements Listener {
       return false;
     }
     ItemMeta meta = item.getItemMeta();
-    return meta != null && meta.hasDisplayName()
-        && meta.getDisplayName().equals(WandSubCommand.WAND_NAME);
+    return meta != null && WandSubCommand.WAND_NAME.equals(meta.displayName());
   }
 }

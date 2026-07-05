@@ -1,121 +1,128 @@
 #============================================================================
 # OxMines - Customizable Chat Messages
-# Use & for color codes (&a=green, &c=red, &6=gold, &7=gray, &b=cyan, &f=white, &e=yellow)
-# Use {name} placeholders for dynamic values
+#
+# Formatting uses MiniMessage syntax:
+#   <red>, <green>, <gold>, <gray>, <aqua>, <white>, <yellow>
+#   <bold>, <italic>, <underlined>, <strikethrough>
+#   <hover:show_text:'...'>, <click:run_command:'/...'>
+#   <gradient:color1:color2>, <rainbow>
+#
+# Use {name} placeholders for dynamic values.
+# See: https://docs.advntr.dev/minimessage/format.html
 #============================================================================
 
 # ── General ──────────────────────────────────────────────────────────────
-general.no-permission: "&cNo permission!"
-general.mine-not-found: "&cThat mine does not exist!"
-general.missing-name: "&cYou must provide a mine name!"
-general.something-wrong: "&cSomething went wrong! Make sure you have blocks set for the mine and that the mine exists."
+general.no-permission: "<red>No permission!"
+general.mine-not-found: "<red>That mine does not exist!"
+general.missing-name: "<red>You must provide a mine name!"
+general.something-wrong: "<red>Something went wrong! Make sure you have blocks set for the mine and that the mine exists."
 
 # ── Add ──────────────────────────────────────────────────────────────────
-add.missing-name: "&cYou must provide a unique name for this mine!"
-add.not-unique: "&cMine name must be unique! You can find a list of mines by doing &7/oxmines list"
-add.no-selection: "&cYou do not have any area selected!"
-add.pos1-missing: "&cPosition 1 not set!"
-add.pos2-missing: "&cPosition 2 not set!"
-add.success: "&aSuccessfully added mine &6{mine}&a!"
+add.missing-name: "<red>You must provide a unique name for this mine!"
+add.not-unique: "<red>Mine name must be unique! You can find a list of mines by doing <gray>/oxmines list</gray>"
+add.no-selection: "<red>You do not have any area selected!"
+add.pos1-missing: "<red>Position 1 not set!"
+add.pos2-missing: "<red>Position 2 not set!"
+add.success: "<green>Successfully added mine <gold>{mine}</gold></green>!"
 
 # ── Clear ────────────────────────────────────────────────────────────────
-clear.missing-name: "&cYou need to provide a mine to clear!"
-clear.success: "&aClear &6{mine}"
-clear.failure: "&cSomething went wrong!"
+clear.missing-name: "<red>You need to provide a mine to clear!"
+clear.success: "<green>Clear <gold>{mine}</gold></green>"
+clear.failure: "<red>Something went wrong!"
 
 # ── Remove ───────────────────────────────────────────────────────────────
-remove.missing-name: "&cYou must provide the name of the mine you'd like to remove!"
-remove.success: "&aSuccessfully deleted mine &6{mine}&a!"
+remove.missing-name: "<red>You must provide the name of the mine you'd like to remove!"
+remove.success: "<green>Successfully deleted mine <gold>{mine}</gold></green>!"
 
 # ── List ─────────────────────────────────────────────────────────────────
-list.header: "&bMines:"
-list.entry: "&6{mine}"
-list.empty: "&6None!"
+list.header: "<aqua>Mines:"
+list.entry: "<gold>{mine}</gold>"
+list.empty: "<gold>None!"
 
 # ── Info ─────────────────────────────────────────────────────────────────
-info.header: "&b=== &6{mine}&b ==="
-info.world: "&7World: &f{world}"
-info.size: "&7Size: &f{width}x{height}x{depth} &7({volume} blocks)"
-info.regen-interval: "&7Regen interval: &f{time}s"
-info.regen-disabled: "&7Regen interval: &cdisabled"
-info.announce-yes: "&7Announce regen: &ayes"
-info.announce-no: "&7Announce regen: &cno"
-info.reset-yes: "&7Reset when empty: &ayes"
-info.reset-no: "&7Reset when empty: &cno"
-info.warp: "&7Warp: &f{x}, {y}, {z} &7({yaw}° / {pitch}°)"
-info.warp-not-set: "&7Warp: &cnot set"
-info.blocks-header: "&7Blocks:"
-info.block-entry: "&7  - &f{block}&7: &f{pct}%"
-info.blocks-none: "&7Blocks: &cnone configured"
+info.header: "<aqua>=== <gold>{mine}</gold> <aqua>==="
+info.world: "<gray>World: <white>{world}</white></gray>"
+info.size: "<gray>Size: <white>{width}x{height}x{depth}</white> <gray>({volume} blocks)</gray>"
+info.regen-interval: "<gray>Regen interval: <white>{time}s</white></gray>"
+info.regen-disabled: "<gray>Regen interval: <red>disabled</red></gray>"
+info.announce-yes: "<gray>Announce regen: <green>yes</green></gray>"
+info.announce-no: "<gray>Announce regen: <red>no</red></gray>"
+info.reset-yes: "<gray>Reset when empty: <green>yes</green></gray>"
+info.reset-no: "<gray>Reset when empty: <red>no</red></gray>"
+info.warp: "<gray>Warp: <white>{x}, {y}, {z}</white> <gray>({yaw}° / {pitch}°)</gray>"
+info.warp-not-set: "<gray>Warp: <red>not set</red></gray>"
+info.blocks-header: "<gray>Blocks:</gray>"
+info.block-entry: "<gray>  - <white>{block}</white><gray>: </gray><white>{pct}%</white></gray>"
+info.blocks-none: "<gray>Blocks: <red>none configured</red></gray>"
 
 # ── Rule ─────────────────────────────────────────────────────────────────
-rule.list: "&7List of rules: announceRegen, regenTime, resetWhenEmpty"
-rule.missing-args: "&cMissing arguments!"
-rule.empty-value: "&cEmpty value!"
-rule.invalid-boolean: "&cValue options are 'true' or 'false'."
-rule.announce-already: "&6{mine}&a is {state} regeneration!"
-rule.announce-change: "&6{mine}&a is {state} regeneration!"
+rule.list: "<gray>List of rules: announceRegen, regenTime, resetWhenEmpty</gray>"
+rule.missing-args: "<red>Missing arguments!"
+rule.empty-value: "<red>Empty value!"
+rule.invalid-boolean: "<red>Value options are 'true' or 'false'."
+rule.announce-already: "<gold>{mine}</gold> <green>is {state} regeneration!</green>"
+rule.announce-change: "<gold>{mine}</gold> <green>is {state} regeneration!</green>"
 rule.state-already-announcing: "already announcing"
 rule.state-no-longer-announcing: "already not announcing"
 rule.state-now-announcing: "now announcing"
 rule.state-no-longer-announce: "no longer announcing"
-rule.invalid-time: "&cThat is not a valid amount of time! The time must be a number."
-rule.regen-disabled: "&b{mine}&a will no longer automatically regenerate."
-rule.regen-set: "&b{mine}&a will now automatically regenerate every &6{time}&a seconds."
-rule.reset-already: "&6{mine}&a is {state} when empty!"
+rule.invalid-time: "<red>That is not a valid amount of time! The time must be a number."
+rule.regen-disabled: "<aqua>{mine}</aqua> <green>will no longer automatically regenerate.</green>"
+rule.regen-set: "<aqua>{mine}</aqua> <green>will now automatically regenerate every <gold>{time}</gold> seconds.</green>"
+rule.reset-already: "<gold>{mine}</gold> <green>is {state} when empty!</green>"
 rule.reset-change-already: "already resetting"
 rule.reset-change-no-longer: "already not resetting"
-rule.rule-not-found: "&cRule does not exist."
-rule.success: "&aSuccessfully set rule &6{rule}&a on &6{mine}&a to &6{value}&a."
+rule.rule-not-found: "<red>Rule does not exist."
+rule.success: "<green>Successfully set rule <gold>{rule}</gold> on <gold>{mine}</gold> to <gold>{value}</gold>.</green>"
 
 # ── Pos1 / Pos2 ──────────────────────────────────────────────────────────
-pos.set-pos1: "&aSet position 1 to &f{pos}"
-pos.set-pos2: "&aSet position 2 to &f{pos}"
+pos.set-pos1: "<green>Set position 1 to <white>{pos}</white></green>"
+pos.set-pos2: "<green>Set position 2 to <white>{pos}</white></green>"
 
 # ── Reload ───────────────────────────────────────────────────────────────
-reload.start: "&cReloading OxMines..."
-reload.done: "&aOxMines Reloaded!"
+reload.start: "<red>Reloading OxMines...</red>"
+reload.done: "<green>OxMines Reloaded!</green>"
 
 # ── Set ──────────────────────────────────────────────────────────────────
-set.missing-mine: "&cYou must provide a mine to set the blocks for!"
-set.missing-block: "&cYou must provide a block to set!"
-set.invalid-block: "&cThat is not a valid block!"
-set.missing-percentage: "&cYou must provide a percentage!"
-set.invalid-percentage: "&cThe percentage must be a number!"
-set.exceed-100: "&cThat percentage would exceed 100%! Current percentage is: &b{total}%"
-set.success: "&aSuccessfully set &e{block}&a to &b{pct}&a on mine &6{mine}"
+set.missing-mine: "<red>You must provide a mine to set the blocks for!"
+set.missing-block: "<red>You must provide a block to set!"
+set.invalid-block: "<red>That is not a valid block!"
+set.missing-percentage: "<red>You must provide a percentage!"
+set.invalid-percentage: "<red>The percentage must be a number!"
+set.exceed-100: "<red>That percentage would exceed 100%! Current percentage is: <aqua>{total}%</aqua></red>"
+set.success: "<green>Successfully set <yellow>{block}</yellow> to <aqua>{pct}</aqua> on mine <gold>{mine}</gold></green>"
 
 # ── Unset ────────────────────────────────────────────────────────────────
-unset.missing-mine: "&cYou must provide a mine to unset the block for!"
-unset.missing-block: "&cYou must provide a block to unset!"
-unset.invalid-block: "&cThat is not a valid block!"
-unset.success: "&aSuccessfully unset &e{block}&a on mine &6{mine}"
+unset.missing-mine: "<red>You must provide a mine to unset the block for!"
+unset.missing-block: "<red>You must provide a block to unset!"
+unset.invalid-block: "<red>That is not a valid block!"
+unset.success: "<green>Successfully unset <yellow>{block}</yellow> on mine <gold>{mine}</gold></green>"
 
 # ── Setwarp ──────────────────────────────────────────────────────────────
-setwarp.missing-name: "&cYou must provide a mine name!"
-setwarp.success: "&aWarp point set for mine &6{mine}&a at &f{x}, {y}, {z}"
+setwarp.missing-name: "<red>You must provide a mine name!"
+setwarp.success: "<green>Warp point set for mine <gold>{mine}</gold> at <white>{x}, {y}, {z}</white></green>"
 
 # ── Delwarp ──────────────────────────────────────────────────────────────
-delwarp.no-warp: "&cThat mine does not have a warp set!"
-delwarp.success: "&aWarp point removed for mine &6{mine}"
+delwarp.no-warp: "<red>That mine does not have a warp set!"
+delwarp.success: "<green>Warp point removed for mine <gold>{mine}</gold></green>"
 
 # ── Tp ───────────────────────────────────────────────────────────────────
-tp.warped: "&aWarped to &6{mine}"
-tp.top: "&aTeleported to the top of &6{mine}"
+tp.warped: "<green>Warped to <gold>{mine}</gold></green>"
+tp.top: "<green>Teleported to the top of <gold>{mine}</gold></green>"
 
 # ── Wand ─────────────────────────────────────────────────────────────────
-wand.received: "&aYou received the &6Mine Wand&a!"
-wand.instructions: "&7Left-click a block to set pos1, right-click to set pos2."
-wand.pos1-set: "&aPosition 1 set to &f{pos}"
-wand.pos2-set: "&aPosition 2 set to &f{pos}"
+wand.received: "<green>You received the <gold>Mine Wand</gold>!</green>"
+wand.instructions: "<gray>Left-click a block to set pos1, right-click to set pos2.</gray>"
+wand.pos1-set: "<green>Position 1 set to <white>{pos}</white></green>"
+wand.pos2-set: "<green>Position 2 set to <white>{pos}</white></green>"
 
 # ── Scheduler (broadcast) ────────────────────────────────────────────────
-scheduler.regenerated: "&b{mine}&6 has been regenerated!"
+scheduler.regenerated: "<aqua>{mine}</aqua><gold> has been regenerated!</gold>"
 
 # ── Command Manager ──────────────────────────────────────────────────────
-cmd.unknown: "&cUnknown subcommand!"
-cmd.no-permission: "&cNo permission!"
-cmd.help-header: "&7--- &6OxMines &7---"
-cmd.help-footer: "&7------------------"
-cmd.help-entry: "&e{syntax} &7- {description}"
-cmd.cmd-not-exist: "&cCommand does not exist!"
+cmd.unknown: "<red>Unknown subcommand!"
+cmd.no-permission: "<red>No permission!"
+cmd.help-header: "<gray>--- <gold>OxMines</gold> ---</gray>"
+cmd.help-footer: "<gray>------------------</gray>"
+cmd.help-entry: "<yellow>{syntax}</yellow> <gray>- {description}</gray>"
+cmd.cmd-not-exist: "<red>Command does not exist!"

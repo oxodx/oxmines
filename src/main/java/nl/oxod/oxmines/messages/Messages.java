@@ -1,6 +1,7 @@
 package nl.oxod.oxmines.messages;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -14,11 +15,12 @@ import java.nio.charset.StandardCharsets;
  * Centralized message manager for OxMines.
  *
  * <p>Loads messages from {@code messages.yml} and provides convenient methods
- * to send color-translated, placeholder-replaced messages to players.
+ * to send MiniMessage-formatted messages to players with placeholder replacement.
  *
  * <p>Placeholders use the format {@code {key}} and are replaced via
  * alternating key-value string pairs.
- * Color codes use {@code &} syntax (e.g., {@code &a} for green).
+ * Formatting uses <a href="https://docs.advntr.dev/minimessage/format.html">
+ * MiniMessage</a> syntax (e.g., {@code <red>}, {@code <gold>}, {@code <gray>}).
  */
 public final class Messages {
   private static FileConfiguration messages;
@@ -50,15 +52,32 @@ public final class Messages {
   }
 
   /**
-   * Retrieves a formatted message string for the given key.
+   * Returns the raw (MiniMessage) string for a key, without parsing or
+   * placeholder replacement. Useful when a message value is used as a
+   * placeholder inside another message.
+   *
+   * @param key the message key
+   * @return the raw string, or the key itself if not found
+   */
+  public static String raw(String key) {
+    if (messages != null) {
+      String val = messages.getString(key);
+      if (val != null) {
+        return val;
+      }
+    }
+    return key;
+  }
+
+  /**
+   * Retrieves a formatted {@link Component} for the given message key.
    *
    * @param key          the message key in messages.yml
    * @param replacements alternating placeholder-value pairs
    *                     (e.g., {@code "mine", "foo", "time", "30"})
-   * @return the formatted message with colors translated and placeholders
-   *         replaced
+   * @return the formatted component with placeholders replaced
    */
-  public static String get(String key, String... replacements) {
+  public static Component get(String key, String... replacements) {
     String msg;
 
     if (messages != null) {
@@ -68,7 +87,8 @@ public final class Messages {
     }
 
     if (msg == null) {
-      return ChatColor.RED + "Missing message: " + key;
+      return MiniMessage.miniMessage().deserialize(
+          "<red>Missing message: " + key + "</red>");
     }
 
     for (int i = 0; i < replacements.length - 1; i += 2) {
@@ -76,7 +96,7 @@ public final class Messages {
           replacements[i + 1]);
     }
 
-    return ChatColor.translateAlternateColorCodes('&', msg);
+    return MiniMessage.miniMessage().deserialize(msg);
   }
 
   /**

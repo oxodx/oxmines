@@ -71,7 +71,7 @@ public class RuleSubCommand extends SubCommand {
               ? "rule.state-already-announcing"
               : "rule.state-no-longer-announcing";
           Messages.send(player, "rule.announce-already",
-              "mine", mineName, "state", Messages.get(stateKey));
+              "mine", mineName, "state", Messages.raw(stateKey));
           return;
         }
 
@@ -82,7 +82,7 @@ public class RuleSubCommand extends SubCommand {
             ? "rule.state-now-announcing"
             : "rule.state-no-longer-announce";
         Messages.send(player, "rule.announce-change",
-            "mine", mineName, "state", Messages.get(changeKey));
+            "mine", mineName, "state", Messages.raw(changeKey));
       }
       case "regentime" -> {
         if (OxMines.getInstance().getConfig()
@@ -127,7 +127,7 @@ public class RuleSubCommand extends SubCommand {
               ? "rule.reset-change-already"
               : "rule.reset-change-no-longer";
           Messages.send(player, "rule.reset-already",
-              "mine", mineName, "state", Messages.get(stateKey));
+              "mine", mineName, "state", Messages.raw(stateKey));
           return;
         }
 
