@@ -1,0 +1,12 @@
+main: ${PACKAGE}.${NAME}
+name: ${NAME}
+version: "${VERSION}"
+api-version: "26.1.2"
+author: AUTHOR
+description: DESCRIPTION
+website: https://oxod.nl
+
+commands:
+  oxmines:
+    description: Main OxMines command
+    usage: /<command> <subcommand> [args]
