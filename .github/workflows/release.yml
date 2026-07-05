@@ -1,0 +1,50 @@
+name: Release
+
+permissions:
+  contents: read
+
+on:
+  push:
+    tags:
+      - "v*" # For v1.0, v0.1.0, etc
+
+concurrency:
+  group: ${{ format('{0}-{1}', github.workflow, github.ref) }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: "25"
+          distribution: "microsoft"
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+      - name: Publish with Gradle
+        run: ./gradlew -Pver=${{ github.ref_name }} release
+      - name: Upload build results
+        uses: actions/upload-artifact@v7
+        with:
+          name: Release Build
+          path: ${{ github.workspace }}/build/libs/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        id: release
+        with:
+          files: ${{ github.workspace }}/build/libs/*
+          generate_release_notes: true
+          name: ${{ format('Release {0}', github.ref_name) }}
+          prerelease: ${{ contains(github.ref_name, '-RC-') }}
+          fail_on_unmatched_files: true
+          draft: true
+    outputs:
+      url: ${{ steps.release.outputs.url }}
