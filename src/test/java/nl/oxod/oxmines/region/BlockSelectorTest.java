@@ -1,7 +1,9 @@
 package nl.oxod.oxmines.region;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import org.bukkit.Location;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class BlockSelectorTest {
 
   @Test
-  void getBlocks_singleBlock() {
+  void getBlocksSingleBlock() {
     World world = mock(World.class);
     Block block = mock(Block.class);
     when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(block);
@@ -26,7 +28,7 @@ class BlockSelectorTest {
   }
 
   @Test
-  void getBlocks_threeByThreeByThree() {
+  void getBlocksThreeByThreeByThree() {
     World world = mock(World.class);
     Block block = mock(Block.class);
     when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(block);
@@ -40,7 +42,7 @@ class BlockSelectorTest {
   }
 
   @Test
-  void getBlocks_handlesReversedCoordinates() {
+  void getBlocksHandlesReversedCoordinates() {
     World world = mock(World.class);
     Block block = mock(Block.class);
     when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(block);
@@ -54,7 +56,7 @@ class BlockSelectorTest {
   }
 
   @Test
-  void getBlocks_negativeCoordinates() {
+  void getBlocksNegativeCoordinates() {
     World world = mock(World.class);
     Block block = mock(Block.class);
     when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(block);
@@ -68,7 +70,7 @@ class BlockSelectorTest {
   }
 
   @Test
-  void getBlocks_tenByTenByTen() {
+  void getBlocksTenByTenByTen() {
     World world = mock(World.class);
     Block block = mock(Block.class);
     when(world.getBlockAt(anyInt(), anyInt(), anyInt())).thenReturn(block);

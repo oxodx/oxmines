@@ -1,20 +1,22 @@
 package nl.oxod.oxmines.region;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 class SelectionRegionTest {
 
   @Test
-  void defaultRegion_hasNullPositions() {
+  void defaultRegionHasNullPositions() {
     SelectionRegion region = new SelectionRegion();
     assertNull(region.pos1);
     assertNull(region.pos2);
   }
 
   @Test
-  void setPositions_storesVectors() {
+  void setPositionsStoresVectors() {
     SelectionRegion region = new SelectionRegion();
     region.pos1 = new Vector3(1, 2, 3);
     region.pos2 = new Vector3(4, 5, 6);
@@ -28,7 +30,7 @@ class SelectionRegionTest {
   }
 
   @Test
-  void partialPosition_allowsNullPos2() {
+  void partialPositionAllowsNullPos2() {
     SelectionRegion region = new SelectionRegion();
     region.pos1 = new Vector3(1, 2, 3);
     assertNotNull(region.pos1);

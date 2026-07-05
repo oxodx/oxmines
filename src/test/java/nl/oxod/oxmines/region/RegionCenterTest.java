@@ -1,7 +1,8 @@
 package nl.oxod.oxmines.region;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.mockito.Mockito.mock;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class RegionCenterTest {
 
   @Test
-  void calculate_returnsCenterOfPositiveCoordinates() {
+  void calculateReturnsCenterOfPositiveCoordinates() {
     World world = mock(World.class);
     Location pos1 = new Location(world, 0, 0, 0);
     Location pos2 = new Location(world, 10, 10, 10);
@@ -24,7 +25,7 @@ class RegionCenterTest {
   }
 
   @Test
-  void calculate_roundsDownForOddDistance() {
+  void calculateRoundsDownForOddDistance() {
     World world = mock(World.class);
     Location pos1 = new Location(world, 0, 0, 0);
     Location pos2 = new Location(world, 9, 9, 9);
@@ -37,7 +38,7 @@ class RegionCenterTest {
   }
 
   @Test
-  void calculate_handlesNegativeCoordinates() {
+  void calculateHandlesNegativeCoordinates() {
     World world = mock(World.class);
     Location pos1 = new Location(world, -10, -10, -10);
     Location pos2 = new Location(world, 0, 0, 0);
@@ -50,7 +51,7 @@ class RegionCenterTest {
   }
 
   @Test
-  void calculate_handlesReversedPositions() {
+  void calculateHandlesReversedPositions() {
     World world = mock(World.class);
     Location pos1 = new Location(world, 10, 10, 10);
     Location pos2 = new Location(world, 0, 0, 0);
@@ -63,7 +64,7 @@ class RegionCenterTest {
   }
 
   @Test
-  void calculate_singleBlockRegion() {
+  void calculateSingleBlockRegion() {
     World world = mock(World.class);
     Location pos1 = new Location(world, 5, 5, 5);
     Location pos2 = new Location(world, 5, 5, 5);

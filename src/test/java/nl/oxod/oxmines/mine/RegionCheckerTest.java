@@ -1,7 +1,9 @@
 package nl.oxod.oxmines.mine;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class RegionCheckerTest {
 
   @Test
-  void isPlayerInRegion_playerInside_returnsTrue() {
+  void isPlayerInRegionPlayerInsideReturnsTrue() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 5, 5, 5));
@@ -23,7 +25,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_playerOutsideX_returnsFalse() {
+  void isPlayerInRegion_playerOutsideOnX_returnsFalse() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 15, 5, 5));
@@ -35,7 +37,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_playerOutsideY_returnsFalse() {
+  void isPlayerInRegion_playerOutsideOnY_returnsFalse() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 5, 15, 5));
@@ -47,7 +49,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_playerOutsideZ_returnsFalse() {
+  void isPlayerInRegion_playerOutsideOnZ_returnsFalse() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 5, 5, 15));
@@ -59,7 +61,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_playerOnBoundary_returnsTrue() {
+  void isPlayerInRegionPlayerOnBoundaryReturnsTrue() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 0, 0, 0));
@@ -71,7 +73,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_playerAtMaxBoundary_returnsTrue() {
+  void isPlayerInRegionPlayerAtMaxBoundaryReturnsTrue() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 10, 10, 10));
@@ -83,7 +85,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_reversedCorners_returnsTrue() {
+  void isPlayerInRegionReversedCornersReturnsTrue() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, 5, 5, 5));
@@ -95,7 +97,7 @@ class RegionCheckerTest {
   }
 
   @Test
-  void isPlayerInRegion_negativeRegion_returnsTrue() {
+  void isPlayerInRegionNegativeRegionReturnsTrue() {
     Player player = mock(Player.class);
     World world = mock(World.class);
     when(player.getLocation()).thenReturn(new Location(world, -5, -5, -5));

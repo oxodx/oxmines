@@ -1,13 +1,14 @@
 package nl.oxod.oxmines.region;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
 class Vector3Test {
 
   @Test
-  void constructor_storesCoordinates() {
+  void constructorStoresCoordinates() {
     Vector3 v = new Vector3(1.5, 2.5, 3.5);
     assertEquals(1.5, v.getX());
     assertEquals(2.5, v.getY());
@@ -15,27 +16,15 @@ class Vector3Test {
   }
 
   @Test
-  void toString_returnsFormattedCoordinates() {
+  void toStringReturnsFormattedCoordinates() {
     Vector3 v = new Vector3(1.0, 2.0, 3.0);
     assertEquals("1.0, 2.0, 3.0", v.toString());
   }
 
   @Test
-  void getX_returnsPosX() {
+  void getX_returnsCorrectPosition() {
     Vector3 v = new Vector3(10.0, 20.0, 30.0);
     assertEquals(10.0, v.getX());
-  }
-
-  @Test
-  void getY_returnsPosY() {
-    Vector3 v = new Vector3(10.0, 20.0, 30.0);
-    assertEquals(20.0, v.getY());
-  }
-
-  @Test
-  void getZ_returnsPosZ() {
-    Vector3 v = new Vector3(10.0, 20.0, 30.0);
-    assertEquals(30.0, v.getZ());
   }
 
   @Test

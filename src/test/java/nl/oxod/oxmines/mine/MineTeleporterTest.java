@@ -1,7 +1,11 @@
 package nl.oxod.oxmines.mine;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,7 +16,7 @@ import org.mockito.ArgumentMatchers;
 class MineTeleporterTest {
 
   @Test
-  void teleportToTop_teleportsToHighestYPlusOne() {
+  void teleportToTopToHighestPlusOne() {
     Player player = mock(Player.class);
     World world = mock(World.class);
 
@@ -26,15 +30,14 @@ class MineTeleporterTest {
     boolean result = MineTeleporter.teleportToTop(player, pos1, pos2);
 
     assertTrue(result);
-    verify(player).teleport(argThat((Location loc) ->
-        loc.getX() == 5.0
-        && loc.getY() == 21.0
-        && loc.getZ() == 5.0
-        && loc.getWorld() == world));
+    verify(player).teleport(argThat((Location loc) -> {
+      assertEquals(21.0, loc.getY(), 0.001);
+      return loc.getWorld() == world;
+    }));
   }
 
   @Test
-  void teleportToTop_preservesXZPosition() {
+  void teleportToTopPreservesXzPosition() {
     Player player = mock(Player.class);
     World world = mock(World.class);
 
@@ -47,13 +50,15 @@ class MineTeleporterTest {
 
     MineTeleporter.teleportToTop(player, pos1, pos2);
 
-    verify(player).teleport(argThat((Location loc) ->
-        loc.getX() == 42.5
-        && loc.getZ() == 78.3));
+    verify(player).teleport(argThat((Location loc) -> {
+      assertEquals(42.5, loc.getX(), 0.001);
+      assertEquals(78.3, loc.getZ(), 0.001);
+      return true;
+    }));
   }
 
   @Test
-  void teleportToTop_handlesReversedCorners() {
+  void teleportToTopHandlesReversedCorners() {
     Player player = mock(Player.class);
     World world = mock(World.class);
 
@@ -66,11 +71,14 @@ class MineTeleporterTest {
 
     MineTeleporter.teleportToTop(player, pos1, pos2);
 
-    verify(player).teleport(argThat((Location loc) -> loc.getY() == 31.0));
+    verify(player).teleport(argThat((Location loc) -> {
+      assertEquals(31.0, loc.getY(), 0.001);
+      return true;
+    }));
   }
 
   @Test
-  void teleportToTop_singleBlockMine() {
+  void teleportToTopSingleBlockMine() {
     Player player = mock(Player.class);
     World world = mock(World.class);
 
@@ -83,6 +91,9 @@ class MineTeleporterTest {
 
     MineTeleporter.teleportToTop(player, pos1, pos2);
 
-    verify(player).teleport(argThat((Location loc) -> loc.getY() == 11.0));
+    verify(player).teleport(argThat((Location loc) -> {
+      assertEquals(11.0, loc.getY(), 0.001);
+      return true;
+    }));
   }
 }
