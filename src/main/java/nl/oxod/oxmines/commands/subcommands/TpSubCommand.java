@@ -7,7 +7,7 @@ import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.region.RegionCenter;
 
-/** Subcommand to teleport a player to the top center of a mine. */
+/** Subcommand to teleport to a mine (uses custom warp if set). */
 public class TpSubCommand extends SubCommand {
   @Override
   public String getName() {
@@ -16,7 +16,7 @@ public class TpSubCommand extends SubCommand {
 
   @Override
   public String getDescription() {
-    return "Teleports you to the top of the provided mine";
+    return "Teleport to a mine's warp or its top center";
   }
 
   @Override
@@ -41,21 +41,30 @@ public class TpSubCommand extends SubCommand {
       return;
     }
 
+    String mineName = args[1];
+
     Location pos1 = OxMines.getInstance().getConfig()
-        .getLocation("mines." + args[1] + ".pos1");
+        .getLocation("mines." + mineName + ".pos1");
     Location pos2 = OxMines.getInstance().getConfig()
-        .getLocation("mines." + args[1] + ".pos2");
+        .getLocation("mines." + mineName + ".pos2");
 
     if (pos1 == null || pos2 == null) {
       player.sendMessage(ChatColor.RED + "That mine does not exist!");
       return;
     }
 
-    int highestY = Math.max(pos1.getBlockY(), pos2.getBlockY());
-
-    Location tpPoint = RegionCenter.calculate(pos1, pos2, pos1.getWorld());
-    tpPoint.setY(highestY + 1);
-
-    player.teleport(tpPoint);
+    Location warp = OxMines.getInstance().getConfig()
+        .getLocation("mines." + mineName + ".warp");
+    if (warp != null) {
+      player.teleport(warp);
+      player.sendMessage(ChatColor.GREEN + "Warped to " + ChatColor.GOLD + mineName);
+    } else {
+      int highestY = Math.max(pos1.getBlockY(), pos2.getBlockY());
+      Location tpPoint = RegionCenter.calculate(pos1, pos2, pos1.getWorld());
+      tpPoint.setY(highestY + 1);
+      player.teleport(tpPoint);
+      player.sendMessage(ChatColor.GREEN + "Teleported to the top of "
+          + ChatColor.GOLD + mineName);
+    }
   }
 }

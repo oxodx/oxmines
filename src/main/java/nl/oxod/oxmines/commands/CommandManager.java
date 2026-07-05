@@ -17,6 +17,8 @@ import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.subcommands.AddSubCommand;
 import nl.oxod.oxmines.commands.subcommands.AddWeSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ClearSubCommand;
+import nl.oxod.oxmines.commands.subcommands.DelWarpSubCommand;
+import nl.oxod.oxmines.commands.subcommands.InfoSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ListSubCommand;
 import nl.oxod.oxmines.commands.subcommands.Pos1SubCommand;
 import nl.oxod.oxmines.commands.subcommands.Pos2SubCommand;
@@ -25,8 +27,10 @@ import nl.oxod.oxmines.commands.subcommands.RemoveSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ResetSubCommand;
 import nl.oxod.oxmines.commands.subcommands.RuleSubCommand;
 import nl.oxod.oxmines.commands.subcommands.SetSubCommand;
+import nl.oxod.oxmines.commands.subcommands.SetWarpSubCommand;
 import nl.oxod.oxmines.commands.subcommands.TpSubCommand;
 import nl.oxod.oxmines.commands.subcommands.UnsetSubCommand;
+import nl.oxod.oxmines.commands.subcommands.WandSubCommand;
 
 /**
  * Dispatches /oxmines subcommands and provides tab completion.
@@ -44,10 +48,14 @@ public class CommandManager implements TabCompleter, CommandExecutor {
     }
     subCommands.add(new RemoveSubCommand());
     subCommands.add(new ListSubCommand());
+    subCommands.add(new InfoSubCommand());
     subCommands.add(new SetSubCommand());
     subCommands.add(new UnsetSubCommand());
+    subCommands.add(new SetWarpSubCommand());
+    subCommands.add(new DelWarpSubCommand());
     subCommands.add(new ResetSubCommand());
     subCommands.add(new TpSubCommand());
+    subCommands.add(new WandSubCommand());
     subCommands.add(new ReloadSubCommand());
     subCommands.add(new Pos1SubCommand());
     subCommands.add(new Pos2SubCommand());
@@ -71,15 +79,16 @@ public class CommandManager implements TabCompleter, CommandExecutor {
     switch (args.length) {
       case 1 -> {
         List<String> possibilities = List.of(
-            "add", "clear", "remove", "list", "set", "unset",
-            "tp", "reset", "rule", "reload", "pos1", "pos2");
+            "add", "clear", "remove", "list", "info", "set", "unset",
+            "setwarp", "delwarp", "tp", "reset", "rule", "reload",
+            "pos1", "pos2", "wand");
         return possibilities.stream()
             .filter(p -> p.startsWith(args[0].toLowerCase()))
             .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
       }
       case 2 -> {
-        if (List.of("remove", "rule", "set", "unset", "reset", "tp", "clear")
-            .contains(args[0])) {
+        if (List.of("remove", "rule", "set", "unset", "setwarp", "delwarp",
+            "reset", "tp", "clear", "info").contains(args[0])) {
           try {
             Set<String> keys = Objects.requireNonNull(
                 OxMines.getInstance().getConfig()

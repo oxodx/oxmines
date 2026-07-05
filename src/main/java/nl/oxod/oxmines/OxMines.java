@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import nl.oxod.oxmines.commands.CommandManager;
+import nl.oxod.oxmines.listeners.WandListener;
 import nl.oxod.oxmines.mine.TimerLoader;
 import nl.oxod.oxmines.region.SelectionManager;
 
@@ -38,6 +39,9 @@ public class OxMines extends JavaPlugin implements Listener {
     saveDefaultConfig();
 
     TimerLoader.loadAll();
+
+    getServer().getPluginManager().registerEvents(new WandListener(), this);
+    getServer().getPluginManager().registerEvents(this, this);
 
     getCommand("oxmines").setExecutor(new CommandManager());
     getCommand("oxmines").setTabCompleter(new CommandManager());

@@ -19,6 +19,7 @@ public class MineRegenerator {
 
   /**
    * Regenerates a mine with its configured block types and percentages.
+   * Teleports players inside to the mine's warp if one is set.
    *
    * @param mineName the name of the mine
    * @return true if regeneration succeeded
@@ -80,9 +81,15 @@ public class MineRegenerator {
         }
       }
 
+      Location warp = OxMines.getInstance().getConfig()
+          .getLocation("mines." + mineName + ".warp");
+
       for (Player p : OxMines.getInstance().getServer().getOnlinePlayers()) {
         if (RegionChecker.isPlayerInRegion(p, pos1, pos2)) {
-          MineTeleporter.teleportToTop(p, pos1, pos2);
+          if (warp != null) {
+            p.teleport(warp);
+          }
+          // No warp set: leave player where they are (warp is optional)
         }
       }
     } catch (Exception e) {
