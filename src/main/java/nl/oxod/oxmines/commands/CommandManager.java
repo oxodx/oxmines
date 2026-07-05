@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.subcommands.AddSubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.commands.subcommands.AddWeSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ClearSubCommand;
 import nl.oxod.oxmines.commands.subcommands.DelWarpSubCommand;
@@ -156,7 +156,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
     }
 
     if (!sender.hasPermission("oxmines.any")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "cmd.no-permission");
       return true;
     }
 
@@ -167,18 +167,20 @@ public class CommandManager implements TabCompleter, CommandExecutor {
               || player.hasPermission(subCmd.getRequiredPermission())) {
             subCmd.perform(player, args);
           } else {
-            player.sendMessage(ChatColor.RED + "Command does not exist!");
+            Messages.send(player, "cmd.cmd-not-exist");
           }
           return true;
         }
       }
-      player.sendMessage(ChatColor.RED + "Unknown subcommand!");
+      Messages.send(player, "cmd.unknown");
     } else {
-      player.sendMessage("------------------");
+      Messages.send(player, "cmd.help-header");
       for (SubCommand subCmd : subCommands) {
-        player.sendMessage(subCmd.getSyntax() + " - " + subCmd.getDescription());
+        player.sendMessage(Messages.get("cmd.help-entry",
+            "syntax", subCmd.getSyntax(),
+            "description", subCmd.getDescription()));
       }
-      player.sendMessage("------------------");
+      Messages.send(player, "cmd.help-footer");
     }
 
     return true;

@@ -2,10 +2,10 @@ package nl.oxod.oxmines.commands.subcommands;
 
 import java.util.Objects;
 import java.util.Set;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 
 /** Subcommand to list all configured mines. */
 public class ListSubCommand extends SubCommand {
@@ -32,11 +32,11 @@ public class ListSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.list")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
-    player.sendMessage(ChatColor.AQUA + "Mines:");
+    Messages.send(player, "list.header");
     try {
       Set<String> keys = Objects.requireNonNull(
           OxMines.getInstance().getConfig()
@@ -44,14 +44,14 @@ public class ListSubCommand extends SubCommand {
           .getKeys(false);
 
       if (keys.isEmpty()) {
-        player.sendMessage(ChatColor.GOLD + "None!");
+        Messages.send(player, "list.empty");
       } else {
         for (String key : keys) {
-          player.sendMessage(ChatColor.GOLD + key);
+          Messages.send(player, "list.entry", "mine", key);
         }
       }
     } catch (NullPointerException e) {
-      player.sendMessage(ChatColor.GOLD + "None!");
+      Messages.send(player, "list.empty");
     }
   }
 }

@@ -1,0 +1,121 @@
+#============================================================================
+# OxMines - Customizable Chat Messages
+# Use & for color codes (&a=green, &c=red, &6=gold, &7=gray, &b=cyan, &f=white, &e=yellow)
+# Use {name} placeholders for dynamic values
+#============================================================================
+
+# ── General ──────────────────────────────────────────────────────────────
+general.no-permission: "&cNo permission!"
+general.mine-not-found: "&cThat mine does not exist!"
+general.missing-name: "&cYou must provide a mine name!"
+general.something-wrong: "&cSomething went wrong! Make sure you have blocks set for the mine and that the mine exists."
+
+# ── Add ──────────────────────────────────────────────────────────────────
+add.missing-name: "&cYou must provide a unique name for this mine!"
+add.not-unique: "&cMine name must be unique! You can find a list of mines by doing &7/oxmines list"
+add.no-selection: "&cYou do not have any area selected!"
+add.pos1-missing: "&cPosition 1 not set!"
+add.pos2-missing: "&cPosition 2 not set!"
+add.success: "&aSuccessfully added mine &6{mine}&a!"
+
+# ── Clear ────────────────────────────────────────────────────────────────
+clear.missing-name: "&cYou need to provide a mine to clear!"
+clear.success: "&aClear &6{mine}"
+clear.failure: "&cSomething went wrong!"
+
+# ── Remove ───────────────────────────────────────────────────────────────
+remove.missing-name: "&cYou must provide the name of the mine you'd like to remove!"
+remove.success: "&aSuccessfully deleted mine &6{mine}&a!"
+
+# ── List ─────────────────────────────────────────────────────────────────
+list.header: "&bMines:"
+list.entry: "&6{mine}"
+list.empty: "&6None!"
+
+# ── Info ─────────────────────────────────────────────────────────────────
+info.header: "&b=== &6{mine}&b ==="
+info.world: "&7World: &f{world}"
+info.size: "&7Size: &f{width}x{height}x{depth} &7({volume} blocks)"
+info.regen-interval: "&7Regen interval: &f{time}s"
+info.regen-disabled: "&7Regen interval: &cdisabled"
+info.announce-yes: "&7Announce regen: &ayes"
+info.announce-no: "&7Announce regen: &cno"
+info.reset-yes: "&7Reset when empty: &ayes"
+info.reset-no: "&7Reset when empty: &cno"
+info.warp: "&7Warp: &f{x}, {y}, {z} &7({yaw}° / {pitch}°)"
+info.warp-not-set: "&7Warp: &cnot set"
+info.blocks-header: "&7Blocks:"
+info.block-entry: "&7  - &f{block}&7: &f{pct}%"
+info.blocks-none: "&7Blocks: &cnone configured"
+
+# ── Rule ─────────────────────────────────────────────────────────────────
+rule.list: "&7List of rules: announceRegen, regenTime, resetWhenEmpty"
+rule.missing-args: "&cMissing arguments!"
+rule.empty-value: "&cEmpty value!"
+rule.invalid-boolean: "&cValue options are 'true' or 'false'."
+rule.announce-already: "&6{mine}&a is {state} regeneration!"
+rule.announce-change: "&6{mine}&a is {state} regeneration!"
+rule.state-already-announcing: "already announcing"
+rule.state-no-longer-announcing: "already not announcing"
+rule.state-now-announcing: "now announcing"
+rule.state-no-longer-announce: "no longer announcing"
+rule.invalid-time: "&cThat is not a valid amount of time! The time must be a number."
+rule.regen-disabled: "&b{mine}&a will no longer automatically regenerate."
+rule.regen-set: "&b{mine}&a will now automatically regenerate every &6{time}&a seconds."
+rule.reset-already: "&6{mine}&a is {state} when empty!"
+rule.reset-change-already: "already resetting"
+rule.reset-change-no-longer: "already not resetting"
+rule.rule-not-found: "&cRule does not exist."
+rule.success: "&aSuccessfully set rule &6{rule}&a on &6{mine}&a to &6{value}&a."
+
+# ── Pos1 / Pos2 ──────────────────────────────────────────────────────────
+pos.set-pos1: "&aSet position 1 to &f{pos}"
+pos.set-pos2: "&aSet position 2 to &f{pos}"
+
+# ── Reload ───────────────────────────────────────────────────────────────
+reload.start: "&cReloading OxMines..."
+reload.done: "&aOxMines Reloaded!"
+
+# ── Set ──────────────────────────────────────────────────────────────────
+set.missing-mine: "&cYou must provide a mine to set the blocks for!"
+set.missing-block: "&cYou must provide a block to set!"
+set.invalid-block: "&cThat is not a valid block!"
+set.missing-percentage: "&cYou must provide a percentage!"
+set.invalid-percentage: "&cThe percentage must be a number!"
+set.exceed-100: "&cThat percentage would exceed 100%! Current percentage is: &b{total}%"
+set.success: "&aSuccessfully set &e{block}&a to &b{pct}&a on mine &6{mine}"
+
+# ── Unset ────────────────────────────────────────────────────────────────
+unset.missing-mine: "&cYou must provide a mine to unset the block for!"
+unset.missing-block: "&cYou must provide a block to unset!"
+unset.invalid-block: "&cThat is not a valid block!"
+unset.success: "&aSuccessfully unset &e{block}&a on mine &6{mine}"
+
+# ── Setwarp ──────────────────────────────────────────────────────────────
+setwarp.missing-name: "&cYou must provide a mine name!"
+setwarp.success: "&aWarp point set for mine &6{mine}&a at &f{x}, {y}, {z}"
+
+# ── Delwarp ──────────────────────────────────────────────────────────────
+delwarp.no-warp: "&cThat mine does not have a warp set!"
+delwarp.success: "&aWarp point removed for mine &6{mine}"
+
+# ── Tp ───────────────────────────────────────────────────────────────────
+tp.warped: "&aWarped to &6{mine}"
+tp.top: "&aTeleported to the top of &6{mine}"
+
+# ── Wand ─────────────────────────────────────────────────────────────────
+wand.received: "&aYou received the &6Mine Wand&a!"
+wand.instructions: "&7Left-click a block to set pos1, right-click to set pos2."
+wand.pos1-set: "&aPosition 1 set to &f{pos}"
+wand.pos2-set: "&aPosition 2 set to &f{pos}"
+
+# ── Scheduler (broadcast) ────────────────────────────────────────────────
+scheduler.regenerated: "&b{mine}&6 has been regenerated!"
+
+# ── Command Manager ──────────────────────────────────────────────────────
+cmd.unknown: "&cUnknown subcommand!"
+cmd.no-permission: "&cNo permission!"
+cmd.help-header: "&7--- &6OxMines &7---"
+cmd.help-footer: "&7------------------"
+cmd.help-entry: "&e{syntax} &7- {description}"
+cmd.cmd-not-exist: "&cCommand does not exist!"

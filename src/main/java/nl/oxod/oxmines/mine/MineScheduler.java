@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.region.BlockSelector;
 
 /**
@@ -41,8 +41,7 @@ public class MineScheduler {
                       .getBoolean("mines." + mineName + ".announceRegen")) {
                     for (Player p : OxMines.getInstance().getServer()
                         .getOnlinePlayers()) {
-                      p.sendMessage(ChatColor.AQUA + mineName
-                          + ChatColor.GOLD + " has been regenerated!");
+                      Messages.send(p, "scheduler.regenerated", "mine", mineName);
                     }
                   }
                 } catch (Exception ignored) { // skip announce errors
@@ -138,8 +137,8 @@ public class MineScheduler {
                             .getBoolean("mines." + mineName + ".announceRegen")) {
                           for (Player p : OxMines.getInstance()
                               .getServer().getOnlinePlayers()) {
-                            p.sendMessage(ChatColor.AQUA + mineName
-                                + ChatColor.GOLD + " has been regenerated!");
+                            Messages.send(p, "scheduler.regenerated",
+                                "mine", mineName);
                           }
                         }
                       } catch (Exception ignored) { // skip announce errors

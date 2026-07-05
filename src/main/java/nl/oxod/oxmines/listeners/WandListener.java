@@ -1,6 +1,5 @@
 package nl.oxod.oxmines.listeners;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,6 +11,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import nl.oxod.oxmines.commands.subcommands.WandSubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.region.SelectionManager;
 import nl.oxod.oxmines.region.SelectionRegion;
 import nl.oxod.oxmines.region.Vector3;
@@ -55,13 +55,11 @@ public class WandListener implements Listener {
     if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
       region.pos1 = pos;
       SelectionManager.setSelection(player, region);
-      player.sendMessage(ChatColor.GREEN + "Position 1 set to "
-          + ChatColor.WHITE + pos);
+      Messages.send(player, "wand.pos1-set", "pos", pos.toString());
     } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
       region.pos2 = pos;
       SelectionManager.setSelection(player, region);
-      player.sendMessage(ChatColor.GREEN + "Position 2 set to "
-          + ChatColor.WHITE + pos);
+      Messages.send(player, "wand.pos2-set", "pos", pos.toString());
     }
   }
 

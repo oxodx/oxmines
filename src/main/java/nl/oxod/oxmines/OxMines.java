@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import nl.oxod.oxmines.commands.CommandManager;
 import nl.oxod.oxmines.listeners.WandListener;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.TimerLoader;
 import nl.oxod.oxmines.region.SelectionManager;
 
@@ -37,6 +38,8 @@ public class OxMines extends JavaPlugin implements Listener {
 
     getConfig().options().copyDefaults();
     saveDefaultConfig();
+
+    Messages.load();
 
     TimerLoader.loadAll();
 

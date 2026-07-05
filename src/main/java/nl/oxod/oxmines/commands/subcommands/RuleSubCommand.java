@@ -1,9 +1,9 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.MineScheduler;
 
 /** Subcommand to configure mine rules (regen time, announcements, reset-on-empty). */
@@ -31,17 +31,17 @@ public class RuleSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.rule")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
     if (args.length == 1) {
-      player.sendMessage("List of rules: announceRegen, regenTime, resetWhenEmpty");
+      Messages.send(player, "rule.list");
       return;
     }
 
     if (args.length < 5) {
-      player.sendMessage(ChatColor.RED + "Missing arguments!");
+      Messages.send(player, "rule.missing-args");
       return;
     }
 
@@ -50,7 +50,7 @@ public class RuleSubCommand extends SubCommand {
     String value = args[4];
 
     if (value.isEmpty()) {
-      player.sendMessage(ChatColor.RED + "Empty value!");
+      Messages.send(player, "rule.empty-value");
       return;
     }
 
@@ -58,7 +58,7 @@ public class RuleSubCommand extends SubCommand {
       case "announceregen" -> {
         if (!value.equalsIgnoreCase("true")
             && !value.equalsIgnoreCase("false")) {
-          player.sendMessage(ChatColor.RED + "Value options are 'true' or 'false'.");
+          Messages.send(player, "rule.invalid-boolean");
           return;
         }
 
@@ -67,25 +67,27 @@ public class RuleSubCommand extends SubCommand {
         boolean newVal = value.equalsIgnoreCase("true");
 
         if (curVal == newVal) {
-          String state = newVal ? "already announcing" : "already not announcing";
-          player.sendMessage(
-              ChatColor.GOLD + mineName + ChatColor.GREEN
-                  + " is " + state + " regeneration!");
+          String stateKey = newVal
+              ? "rule.state-already-announcing"
+              : "rule.state-no-longer-announcing";
+          Messages.send(player, "rule.announce-already",
+              "mine", mineName, "state", Messages.get(stateKey));
           return;
         }
 
         OxMines.getInstance().getConfig()
             .set("mines." + mineName + ".announceRegen", newVal);
 
-        String change = newVal ? "now announcing" : "no longer announcing";
-        player.sendMessage(
-            ChatColor.GOLD + mineName + ChatColor.GREEN
-                + " is " + change + " regeneration!");
+        String changeKey = newVal
+            ? "rule.state-now-announcing"
+            : "rule.state-no-longer-announce";
+        Messages.send(player, "rule.announce-change",
+            "mine", mineName, "state", Messages.get(changeKey));
       }
       case "regentime" -> {
         if (OxMines.getInstance().getConfig()
             .get("mines." + mineName) == null) {
-          player.sendMessage(ChatColor.RED + "That mine does not exist!");
+          Messages.send(player, "general.mine-not-found");
           return;
         }
 
@@ -93,22 +95,17 @@ public class RuleSubCommand extends SubCommand {
         try {
           timeInSeconds = Integer.parseInt(value);
         } catch (NumberFormatException e) {
-          player.sendMessage(ChatColor.RED + "That is not a valid amount of time!"
-              + " The time must be a number.");
+          Messages.send(player, "rule.invalid-time");
           return;
         }
 
         if (timeInSeconds <= 0) {
           MineScheduler.cancelRegeneration(mineName);
-          player.sendMessage(
-              ChatColor.AQUA + mineName + ChatColor.GREEN
-                  + " will no longer automatically regenerate.");
+          Messages.send(player, "rule.regen-disabled", "mine", mineName);
         } else {
           MineScheduler.scheduleRegeneration(mineName, timeInSeconds);
-          player.sendMessage(
-              ChatColor.AQUA + mineName + ChatColor.GREEN
-                  + " will now automatically regenerate every "
-                  + ChatColor.GOLD + timeInSeconds + ChatColor.GREEN + " seconds.");
+          Messages.send(player, "rule.regen-set",
+              "mine", mineName, "time", String.valueOf(timeInSeconds));
         }
 
         OxMines.getInstance().getConfig()
@@ -117,7 +114,7 @@ public class RuleSubCommand extends SubCommand {
       case "resetwhenempty" -> {
         if (!value.equalsIgnoreCase("true")
             && !value.equalsIgnoreCase("false")) {
-          player.sendMessage(ChatColor.RED + "Value options are 'true' or 'false'.");
+          Messages.send(player, "rule.invalid-boolean");
           return;
         }
 
@@ -126,10 +123,11 @@ public class RuleSubCommand extends SubCommand {
         boolean newVal = value.equalsIgnoreCase("true");
 
         if (curVal == newVal) {
-          String state = newVal ? "already resetting" : "already not resetting";
-          player.sendMessage(
-              ChatColor.GOLD + mineName + ChatColor.GREEN
-                  + " is " + state + " when empty!");
+          String stateKey = newVal
+              ? "rule.reset-change-already"
+              : "rule.reset-change-no-longer";
+          Messages.send(player, "rule.reset-already",
+              "mine", mineName, "state", Messages.get(stateKey));
           return;
         }
 
@@ -143,15 +141,13 @@ public class RuleSubCommand extends SubCommand {
         }
       }
       default -> {
-        player.sendMessage(ChatColor.RED + "Rule does not exist.");
+        Messages.send(player, "rule.rule-not-found");
         return;
       }
     }
 
     OxMines.getInstance().saveConfig();
-    player.sendMessage(ChatColor.GREEN + "Successfully set rule "
-        + ChatColor.GOLD + rule + ChatColor.GREEN + " on "
-        + ChatColor.GOLD + mineName + ChatColor.GREEN + " to "
-        + ChatColor.GOLD + value + ChatColor.GREEN + ".");
+    Messages.send(player, "rule.success",
+        "rule", rule, "mine", mineName, "value", value);
   }
 }

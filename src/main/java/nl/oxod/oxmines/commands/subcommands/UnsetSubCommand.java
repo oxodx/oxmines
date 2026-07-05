@@ -1,10 +1,10 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 
 /** Subcommand to remove a block type from a mine's composition. */
 public class UnsetSubCommand extends SubCommand {
@@ -31,17 +31,17 @@ public class UnsetSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.unset")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
     if (args.length < 2 || args[1].isEmpty()) {
-      player.sendMessage(ChatColor.RED + "You must provide a mine to unset the block for!");
+      Messages.send(player, "unset.missing-mine");
       return;
     }
 
     if (args.length < 3 || args[2].isEmpty()) {
-      player.sendMessage(ChatColor.RED + "You must provide a block to unset!");
+      Messages.send(player, "unset.missing-block");
       return;
     }
 
@@ -56,12 +56,12 @@ public class UnsetSubCommand extends SubCommand {
       }
     }
     if (!validBlock) {
-      player.sendMessage(ChatColor.RED + "That is not a valid block!");
+      Messages.send(player, "unset.invalid-block");
       return;
     }
 
     if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
-      player.sendMessage(ChatColor.RED + "That mine does not exist!");
+      Messages.send(player, "general.mine-not-found");
       return;
     }
 
@@ -69,8 +69,7 @@ public class UnsetSubCommand extends SubCommand {
         .set("mines." + mineName + ".blocks." + blockName.toLowerCase(), null);
     OxMines.getInstance().saveConfig();
 
-    player.sendMessage(ChatColor.GREEN + "Successfully unset "
-        + ChatColor.YELLOW + blockName.toLowerCase() + ChatColor.GREEN + " on mine "
-        + ChatColor.GOLD + mineName);
+    Messages.send(player, "unset.success",
+        "block", blockName.toLowerCase(), "mine", mineName);
   }
 }

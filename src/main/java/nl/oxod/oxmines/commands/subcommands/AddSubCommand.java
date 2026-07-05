@@ -1,10 +1,10 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.MineScheduler;
 import nl.oxod.oxmines.region.SelectionManager;
 import nl.oxod.oxmines.region.SelectionRegion;
@@ -35,34 +35,33 @@ public class AddSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.add")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
     if (args.length < 2 || args[1].isEmpty()) {
-      player.sendMessage(ChatColor.RED + "You must provide a unique name for this mine!");
+      Messages.send(player, "add.missing-name");
       return;
     }
 
     String mineName = args[1];
 
     if (OxMines.getInstance().getConfig().get("mines." + mineName) != null) {
-      player.sendMessage(ChatColor.RED + "Mine name must be unique!"
-          + " You can find a list of mines by doing /oxmines list");
+      Messages.send(player, "add.not-unique");
       return;
     }
 
     SelectionRegion region = SelectionManager.getSelection(player);
     if (region == null) {
-      player.sendMessage(ChatColor.RED + "You do not have any area selected!");
+      Messages.send(player, "add.no-selection");
       return;
     }
     if (region.pos1 == null) {
-      player.sendMessage(ChatColor.RED + "Position 1 not set!");
+      Messages.send(player, "add.pos1-missing");
       return;
     }
     if (region.pos2 == null) {
-      player.sendMessage(ChatColor.RED + "Position 2 not set!");
+      Messages.send(player, "add.pos2-missing");
       return;
     }
 
@@ -74,8 +73,7 @@ public class AddSubCommand extends SubCommand {
             region.pos2.getX(), region.pos2.getY(), region.pos2.getZ()));
     OxMines.getInstance().saveConfig();
 
-    player.sendMessage(ChatColor.GREEN + "Successfully added mine "
-        + ChatColor.GOLD + mineName + ChatColor.GREEN + "!");
+    Messages.send(player, "add.success", "mine", mineName);
 
     MineScheduler.scheduleClearCheck(mineName, 1);
   }

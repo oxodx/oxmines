@@ -2,11 +2,11 @@ package nl.oxod.oxmines.commands.subcommands;
 
 import java.util.Objects;
 import java.util.Set;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 
 /** Subcommand to set a block type with a percentage for a mine. */
 public class SetSubCommand extends SubCommand {
@@ -33,23 +33,23 @@ public class SetSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.set")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
     if (args.length < 2 || args[1].isEmpty()) {
-      player.sendMessage(ChatColor.RED + "You must provide a mine to set the blocks for!");
+      Messages.send(player, "set.missing-mine");
       return;
     }
     String mineName = args[1];
 
     if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
-      player.sendMessage(ChatColor.RED + "That mine does not exist!");
+      Messages.send(player, "general.mine-not-found");
       return;
     }
 
     if (args.length < 3 || args[2].isEmpty()) {
-      player.sendMessage(ChatColor.RED + "You must provide a block to set!");
+      Messages.send(player, "set.missing-block");
       return;
     }
     String blockName = args[2];
@@ -62,12 +62,12 @@ public class SetSubCommand extends SubCommand {
       }
     }
     if (!validBlock) {
-      player.sendMessage(ChatColor.RED + "That is not a valid block!");
+      Messages.send(player, "set.invalid-block");
       return;
     }
 
     if (args.length < 4 || args[3].isEmpty()) {
-      player.sendMessage(ChatColor.RED + "You must provide a percentage!");
+      Messages.send(player, "set.missing-percentage");
       return;
     }
 
@@ -75,7 +75,7 @@ public class SetSubCommand extends SubCommand {
     try {
       percentage = Integer.parseInt(args[3]);
     } catch (NumberFormatException e) {
-      player.sendMessage(ChatColor.RED + "The percentage must be a number!");
+      Messages.send(player, "set.invalid-percentage");
       return;
     }
 
@@ -93,8 +93,7 @@ public class SetSubCommand extends SubCommand {
         }
       }
       if (currentTotal + percentage > 100) {
-        player.sendMessage(ChatColor.RED + "That percentage would exceed 100%!"
-            + " Current percentage is: " + ChatColor.AQUA + currentTotal + "%");
+        Messages.send(player, "set.exceed-100", "total", String.valueOf(currentTotal));
         return;
       }
     } catch (Exception ignored) { // first block set, no existing section
@@ -104,9 +103,9 @@ public class SetSubCommand extends SubCommand {
         .set("mines." + mineName + ".blocks." + blockName.toLowerCase(), percentage);
     OxMines.getInstance().saveConfig();
 
-    player.sendMessage(ChatColor.GREEN + "Successfully set "
-        + ChatColor.YELLOW + blockName.toLowerCase() + ChatColor.GREEN + " to "
-        + ChatColor.AQUA + percentage + ChatColor.GREEN + " on mine "
-        + ChatColor.GOLD + mineName);
+    Messages.send(player, "set.success",
+        "block", blockName.toLowerCase(),
+        "pct", String.valueOf(percentage),
+        "mine", mineName);
   }
 }

@@ -1,9 +1,9 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.region.SelectionManager;
 import nl.oxod.oxmines.region.SelectionRegion;
 import nl.oxod.oxmines.region.Vector3;
@@ -33,7 +33,7 @@ public class Pos1SubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.pos1")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
@@ -46,6 +46,6 @@ public class Pos1SubCommand extends SubCommand {
     region.pos1 = new Vector3(block.getX(), block.getY() - 1, block.getZ());
     SelectionManager.setSelection(player, region);
 
-    player.sendMessage(ChatColor.GREEN + "Set position 1 to " + region.pos1);
+    Messages.send(player, "pos.set-pos1", "pos", region.pos1.toString());
   }
 }

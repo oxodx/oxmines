@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 
 /** Subcommand to give the player a wand for selecting mine regions. */
 public class WandSubCommand extends SubCommand {
@@ -36,7 +37,7 @@ public class WandSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.wand")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
@@ -47,9 +48,7 @@ public class WandSubCommand extends SubCommand {
     wand.setItemMeta(meta);
 
     player.getInventory().addItem(wand);
-    player.sendMessage(ChatColor.GREEN + "You received the "
-        + ChatColor.GOLD + "Mine Wand" + ChatColor.GREEN + "!");
-    player.sendMessage(ChatColor.GRAY + "Left-click a block to set pos1,"
-        + " right-click to set pos2.");
+    Messages.send(player, "wand.received");
+    Messages.send(player, "wand.instructions");
   }
 }

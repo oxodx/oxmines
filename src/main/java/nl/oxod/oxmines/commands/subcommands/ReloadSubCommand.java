@@ -1,9 +1,9 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.TimerLoader;
 
 /** Subcommand to reload plugin configuration and schedules. */
@@ -31,19 +31,21 @@ public class ReloadSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.reload")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
-    player.sendMessage(ChatColor.RED + "Reloading OxMines...");
+    Messages.send(player, "reload.start");
 
     OxMines.getInstance().reloadConfig();
     OxMines.getInstance().saveDefaultConfig();
     OxMines.getInstance().getConfig().options().copyDefaults();
     OxMines.getInstance().saveConfig();
 
+    Messages.load();
+
     TimerLoader.loadAll();
 
-    player.sendMessage(ChatColor.GREEN + "OxMines Reloaded!");
+    Messages.send(player, "reload.done");
   }
 }

@@ -1,9 +1,9 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.MineScheduler;
 
 /** Subcommand to remove a mine. */
@@ -31,20 +31,19 @@ public class RemoveSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.remove")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
     if (args.length < 2 || args[1].isEmpty()) {
-      player.sendMessage(
-          ChatColor.RED + "You must provide the name of the mine you'd like to remove!");
+      Messages.send(player, "remove.missing-name");
       return;
     }
 
     String mineName = args[1];
 
     if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
-      player.sendMessage(ChatColor.RED + "That mine does not exist!");
+      Messages.send(player, "general.mine-not-found");
       return;
     }
 
@@ -54,7 +53,6 @@ public class RemoveSubCommand extends SubCommand {
     MineScheduler.cancelRegeneration(mineName);
     MineScheduler.cancelClearCheck(mineName);
 
-    player.sendMessage(ChatColor.GREEN + "Successfully deleted mine "
-        + ChatColor.GOLD + mineName + "!");
+    Messages.send(player, "remove.success", "mine", mineName);
   }
 }

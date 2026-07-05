@@ -1,10 +1,10 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
+import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.region.RegionCenter;
 
 /** Subcommand to teleport to a mine (uses custom warp if set). */
@@ -32,12 +32,12 @@ public class TpSubCommand extends SubCommand {
   @Override
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.tp")) {
-      player.sendMessage(ChatColor.RED + "No permission!");
+      Messages.send(player, "general.no-permission");
       return;
     }
 
     if (args.length < 2) {
-      player.sendMessage(ChatColor.RED + "You must provide a mine name!");
+      Messages.send(player, "general.missing-name");
       return;
     }
 
@@ -49,7 +49,7 @@ public class TpSubCommand extends SubCommand {
         .getLocation("mines." + mineName + ".pos2");
 
     if (pos1 == null || pos2 == null) {
-      player.sendMessage(ChatColor.RED + "That mine does not exist!");
+      Messages.send(player, "general.mine-not-found");
       return;
     }
 
@@ -57,14 +57,13 @@ public class TpSubCommand extends SubCommand {
         .getLocation("mines." + mineName + ".warp");
     if (warp != null) {
       player.teleport(warp);
-      player.sendMessage(ChatColor.GREEN + "Warped to " + ChatColor.GOLD + mineName);
+      Messages.send(player, "tp.warped", "mine", mineName);
     } else {
       int highestY = Math.max(pos1.getBlockY(), pos2.getBlockY());
       Location tpPoint = RegionCenter.calculate(pos1, pos2, pos1.getWorld());
       tpPoint.setY(highestY + 1);
       player.teleport(tpPoint);
-      player.sendMessage(ChatColor.GREEN + "Teleported to the top of "
-          + ChatColor.GOLD + mineName);
+      Messages.send(player, "tp.top", "mine", mineName);
     }
   }
 }
