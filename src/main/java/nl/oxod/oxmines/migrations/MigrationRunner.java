@@ -8,6 +8,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import nl.oxod.oxmines.OxMines;
 
+/**
+ * Runs pending data migrations on plugin startup and reload.
+ *
+ * <p>Applied migrations are tracked in {@code migrations.yml} so they
+ * only execute once.
+ */
 public final class MigrationRunner {
   private static final File FILE = new File(
       OxMines.getInstance().getDataFolder(), "migrations.yml");
@@ -15,13 +21,13 @@ public final class MigrationRunner {
   private MigrationRunner() {
   }
 
+  /** Runs every pending migration that has not yet been applied. */
   public static void run() {
-    runIfNeeded("1783340391", new Migration_1783340391());
+    runIfNeeded("1741267200", new Migration1741267200());
   }
 
   private static void runIfNeeded(String name, Migration migration) {
     YamlConfiguration data = load();
-
     List<String> applied = data.getStringList("applied");
     if (applied.contains(name)) {
       return;
@@ -40,6 +46,7 @@ public final class MigrationRunner {
       try {
         data.load(FILE);
       } catch (Exception ignored) {
+        // file is missing or corrupt; start fresh
       }
     }
     if (!data.contains("applied")) {
