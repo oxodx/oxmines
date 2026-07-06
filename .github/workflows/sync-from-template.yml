@@ -14,5 +14,5 @@ jobs:
       - name: actions-template-sync
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          source_repo_path: oxod/plugin-template
+          source_repo_path: oxodx/plugin-template
           upstream_branch: main
