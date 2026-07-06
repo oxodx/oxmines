@@ -2,6 +2,7 @@ package nl.oxod.oxmines.commands.subcommands;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;

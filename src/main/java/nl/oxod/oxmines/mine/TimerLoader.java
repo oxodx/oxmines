@@ -3,6 +3,7 @@ package nl.oxod.oxmines.mine;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
+
 import nl.oxod.oxmines.OxMines;
 
 /**

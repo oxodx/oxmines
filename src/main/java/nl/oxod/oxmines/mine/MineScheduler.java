@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.region.BlockSelector;
@@ -22,7 +24,7 @@ public class MineScheduler {
   /**
    * Schedules a repeating regeneration task for a mine.
    *
-   * @param mineName       the mine name
+   * @param mineName        the mine name
    * @param intervalSeconds interval between regenerations
    * @return true if scheduling succeeded
    */
@@ -96,7 +98,7 @@ public class MineScheduler {
   /**
    * Schedules a periodic check to regenerate a mine when it is fully emptied.
    *
-   * @param mineName       the mine name
+   * @param mineName        the mine name
    * @param intervalSeconds interval between checks
    * @return true if scheduling succeeded
    */
@@ -119,8 +121,7 @@ public class MineScheduler {
                     Location pos2 = OxMines.getInstance().getConfig()
                         .getLocation("mines." + mineName + ".pos2");
 
-                    List<Block> blocksInArea =
-                        BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
+                    List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 
                     boolean foundAnything = false;
                     for (Block block : blocksInArea) {

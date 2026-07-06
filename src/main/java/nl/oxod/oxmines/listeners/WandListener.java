@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
 import nl.oxod.oxmines.commands.subcommands.WandSubCommand;
 import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.region.SelectionManager;

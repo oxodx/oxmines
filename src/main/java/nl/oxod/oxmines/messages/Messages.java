@@ -1,23 +1,28 @@
 package nl.oxod.oxmines.messages;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import nl.oxod.oxmines.OxMines;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import nl.oxod.oxmines.OxMines;
+
 /**
  * Centralized message manager for OxMines.
  *
- * <p>Loads messages from {@code messages.yml} and provides convenient methods
- * to send MiniMessage-formatted messages to players with placeholder replacement.
+ * <p>
+ * Loads messages from {@code messages.yml} and provides convenient methods
+ * to send MiniMessage-formatted messages to players with placeholder
+ * replacement.
  *
- * <p>Placeholders use the format {@code {key}} and are replaced via
+ * <p>
+ * Placeholders use the format {@code {key}} and are replaced via
  * alternating key-value string pairs.
  * Formatting uses <a href="https://docs.advntr.dev/minimessage/format.html">
  * MiniMessage</a> syntax (e.g., {@code <red>}, {@code <gold>}, {@code <gray>}).
@@ -44,9 +49,8 @@ public final class Messages {
     InputStream defaultStream = OxMines.getInstance()
         .getResource("messages.yml");
     if (defaultStream != null) {
-      YamlConfiguration defaults =
-          YamlConfiguration.loadConfiguration(
-              new InputStreamReader(defaultStream, StandardCharsets.UTF_8));
+      YamlConfiguration defaults = YamlConfiguration.loadConfiguration(
+          new InputStreamReader(defaultStream, StandardCharsets.UTF_8));
       messages.setDefaults(defaults);
     }
   }

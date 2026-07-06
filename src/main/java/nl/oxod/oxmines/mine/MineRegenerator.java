@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.region.BlockSelector;
 
 /**
- * Handles regenerating mine blocks from configured compositions and clearing them.
+ * Handles regenerating mine blocks from configured compositions and clearing
+ * them.
  */
 public class MineRegenerator {
 
@@ -51,8 +54,7 @@ public class MineRegenerator {
         return false;
       }
 
-      List<Block> blocksInArea =
-          BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
+      List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 
       for (Block block : blocksInArea) {
         boolean choseOne = false;
@@ -112,8 +114,7 @@ public class MineRegenerator {
       Location pos2 = OxMines.getInstance().getConfig()
           .getLocation("mines." + mineName + ".pos2");
 
-      List<Block> blocksInArea =
-          BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
+      List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 
       for (Block block : blocksInArea) {
         block.setType(Material.AIR);

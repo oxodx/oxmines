@@ -1,12 +1,16 @@
 package nl.oxod.oxmines.commands.subcommands;
 
 import org.bukkit.entity.Player;
+
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.MineScheduler;
 
-/** Subcommand to configure mine rules (regen time, announcements, reset-on-empty). */
+/**
+ * Subcommand to configure mine rules (regen time, announcements,
+ * reset-on-empty).
+ */
 public class RuleSubCommand extends SubCommand {
   @Override
   public String getName() {

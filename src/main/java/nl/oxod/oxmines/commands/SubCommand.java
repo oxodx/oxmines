@@ -37,7 +37,7 @@ public abstract class SubCommand {
    * Performs the subcommand.
    *
    * @param player the player executing the command
-   * @param args the command arguments
+   * @param args   the command arguments
    */
   public abstract void perform(Player player, String[] args);
 }

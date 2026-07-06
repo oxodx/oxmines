@@ -2,9 +2,11 @@ package nl.oxod.oxmines.commands.subcommands;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.regions.Region;
+
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,9 +13,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.subcommands.AddSubCommand;
-import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.commands.subcommands.AddWeSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ClearSubCommand;
 import nl.oxod.oxmines.commands.subcommands.DelWarpSubCommand;
@@ -31,6 +32,7 @@ import nl.oxod.oxmines.commands.subcommands.SetWarpSubCommand;
 import nl.oxod.oxmines.commands.subcommands.TpSubCommand;
 import nl.oxod.oxmines.commands.subcommands.UnsetSubCommand;
 import nl.oxod.oxmines.commands.subcommands.WandSubCommand;
+import nl.oxod.oxmines.messages.Messages;
 
 /**
  * Dispatches /oxmines subcommands and provides tab completion.
