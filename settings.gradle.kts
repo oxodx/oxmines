@@ -1,1 +1,1 @@
-rootProject.name = "OxMines"
+rootProject.name = "PluginTemplate"

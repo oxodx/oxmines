@@ -12,7 +12,7 @@ plugins {
   java
 }
 
-group = "nl.oxod.oxmines"
+group = "nl.oxod.plugintemplate"
 
 fun getTime(): String {
   val sdf = SimpleDateFormat("yyMMdd-HHmm")
@@ -48,17 +48,6 @@ repositories {
     }
   }
 
-  maven {
-    name = "worldedit"
-    url = uri("https://maven.enginehub.org/repo/")
-    content {
-      includeModule("com.sk89q.worldedit", "worldedit-bukkit")
-      includeModule("com.sk89q.worldedit", "worldedit-core")
-      includeModule("com.sk89q.worldedit.worldedit-libs", "bukkit")
-      includeModule("com.sk89q.worldedit.worldedit-libs", "core")
-    }
-  }
-
   mavenCentral()
 
   maven {
@@ -71,12 +60,6 @@ val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
   compileOnly("io.papermc.paper:paper-api:26.1.2.build.72-stable")
-
-  compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.13") {
-    exclude(group = "com.google.guava", module = "guava")
-    exclude(group = "com.google.code.gson", module = "gson")
-    exclude(group = "it.unimi.dsi", module = "fastutil")
-  }
 
   // Code quality and unit testing
   compileOnly("com.github.spotbugs:spotbugs-annotations:4.10.2")

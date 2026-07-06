@@ -7,6 +7,6 @@ description: DESCRIPTION
 website: https://oxod.nl
 
 commands:
-  oxmines:
-    description: OxMines plugin
+  plugintemplate:
+    description: PluginTemplate plugin
     usage: /<command> <subcommand> [args]
