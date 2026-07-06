@@ -72,7 +72,7 @@ val mockitoAgent = configurations.create("mockitoAgent")
 dependencies {
   compileOnly("io.papermc.paper:paper-api:26.1.2.build.72-stable")
 
-  compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.13") {
+  compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.4.4") {
     exclude(group = "com.google.guava", module = "guava")
     exclude(group = "com.google.code.gson", module = "gson")
     exclude(group = "it.unimi.dsi", module = "fastutil")
