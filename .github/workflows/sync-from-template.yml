@@ -72,7 +72,8 @@ jobs:
           find * -type f 2>/dev/null | while read -r clean_file; do
 
             cd "$SANDBOX"
-            if git check-ignore --quiet "$clean_file" 2>/dev/null; then
+            # Prepend a / to the file path so rules like /src/ match correctly
+            if git check-ignore --quiet "/$clean_file" 2>/dev/null; then
               echo "INFO: Skipping ignored path: $clean_file"
               continue
             fi
