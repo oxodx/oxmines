@@ -1,0 +1,5 @@
+/.git/
+/.github/workflows/
+/.gitignore/
+/README.md
+/src/
