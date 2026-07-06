@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 
 /** Subcommand to show detailed information about a mine. */
 public class InfoSubCommand extends SubCommand {
@@ -46,15 +47,13 @@ public class InfoSubCommand extends SubCommand {
 
     String mineName = args[1];
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
+    if (MinesFile.get("mines." + mineName) == null) {
       Messages.send(player, "general.mine-not-found");
       return;
     }
 
-    Location pos1 = OxMines.getInstance().getConfig()
-        .getLocation("mines." + mineName + ".pos1");
-    Location pos2 = OxMines.getInstance().getConfig()
-        .getLocation("mines." + mineName + ".pos2");
+    Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
+    Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
 
     int width = Math.abs(pos1.getBlockX() - pos2.getBlockX()) + 1;
     int height = Math.abs(pos1.getBlockY() - pos2.getBlockY()) + 1;
@@ -69,24 +68,20 @@ public class InfoSubCommand extends SubCommand {
         "depth", String.valueOf(depth),
         "volume", String.valueOf(volume));
 
-    int regenInterval = OxMines.getInstance().getConfig()
-        .getInt("mines." + mineName + ".regenInterval");
+    int regenInterval = MinesFile.getInt("mines." + mineName + ".regenInterval");
     if (regenInterval > 0) {
       Messages.send(player, "info.regen-interval", "time", String.valueOf(regenInterval));
     } else {
       Messages.send(player, "info.regen-disabled");
     }
 
-    boolean announce = OxMines.getInstance().getConfig()
-        .getBoolean("mines." + mineName + ".announceRegen");
+    boolean announce = MinesFile.getBoolean("mines." + mineName + ".announceRegen");
     Messages.send(player, announce ? "info.announce-yes" : "info.announce-no");
 
-    boolean resetEmpty = OxMines.getInstance().getConfig()
-        .getBoolean("mines." + mineName + ".resetWhenEmpty");
+    boolean resetEmpty = MinesFile.getBoolean("mines." + mineName + ".resetWhenEmpty");
     Messages.send(player, resetEmpty ? "info.reset-yes" : "info.reset-no");
 
-    Location warp = OxMines.getInstance().getConfig()
-        .getLocation("mines." + mineName + ".warp");
+    Location warp = MinesFile.getLocation("mines." + mineName + ".warp");
     if (warp != null) {
       Messages.send(player, "info.warp",
           "x", String.valueOf(warp.getBlockX()),
@@ -100,15 +95,13 @@ public class InfoSubCommand extends SubCommand {
 
     try {
       Set<String> blockKeys = Objects.requireNonNull(
-          OxMines.getInstance().getConfig()
-              .getConfigurationSection("mines." + mineName + ".blocks"))
+          MinesFile.getConfigurationSection("mines." + mineName + ".blocks"))
           .getKeys(false);
 
       if (!blockKeys.isEmpty()) {
         Messages.send(player, "info.blocks-header");
         for (String key : blockKeys) {
-          int pct = OxMines.getInstance().getConfig()
-              .getInt("mines." + mineName + ".blocks." + key);
+          int pct = MinesFile.getInt("mines." + mineName + ".blocks." + key);
           Messages.send(player, "info.block-entry",
               "block", key, "pct", String.valueOf(pct));
         }

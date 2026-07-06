@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 
 /** Subcommand to remove a block type from a mine's composition. */
 public class UnsetSubCommand extends SubCommand {
@@ -61,14 +62,13 @@ public class UnsetSubCommand extends SubCommand {
       return;
     }
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
+    if (MinesFile.get("mines." + mineName) == null) {
       Messages.send(player, "general.mine-not-found");
       return;
     }
 
-    OxMines.getInstance().getConfig()
-        .set("mines." + mineName + ".blocks." + blockName.toLowerCase(), null);
-    OxMines.getInstance().saveConfig();
+    MinesFile.set("mines." + mineName + ".blocks." + blockName.toLowerCase(), null);
+    MinesFile.save();
 
     Messages.send(player, "unset.success",
         "block", blockName.toLowerCase(), "mine", mineName);

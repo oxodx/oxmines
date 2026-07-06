@@ -21,21 +21,16 @@ public class TimerLoader {
       MineScheduler.cancelAll();
 
       Set<String> keys = Objects.requireNonNull(
-          OxMines.getInstance().getConfig()
-              .getConfigurationSection("mines"))
+          MinesFile.getConfigurationSection("mines"))
           .getKeys(false);
 
       for (String key : keys) {
-        if (OxMines.getInstance().getConfig()
-            .get("mines." + key + ".regenInterval") != null
-            && OxMines.getInstance().getConfig()
-                .getInt("mines." + key + ".regenInterval") > 0) {
+        if (MinesFile.get("mines." + key + ".regenInterval") != null
+            && MinesFile.getInt("mines." + key + ".regenInterval") > 0) {
           MineScheduler.scheduleRegeneration(key,
-              OxMines.getInstance().getConfig()
-                  .getInt("mines." + key + ".regenInterval"));
+              MinesFile.getInt("mines." + key + ".regenInterval"));
         }
-        if (OxMines.getInstance().getConfig()
-            .getBoolean("mines." + key + ".resetWhenEmpty")) {
+        if (MinesFile.getBoolean("mines." + key + ".resetWhenEmpty")) {
           MineScheduler.scheduleClearCheck(key, 1);
         }
       }

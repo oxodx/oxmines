@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 
 /** Subcommand to set a block type with a percentage for a mine. */
 public class SetSubCommand extends SubCommand {
@@ -45,7 +46,7 @@ public class SetSubCommand extends SubCommand {
     }
     String mineName = args[1];
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
+    if (MinesFile.get("mines." + mineName) == null) {
       Messages.send(player, "general.mine-not-found");
       return;
     }
@@ -83,13 +84,11 @@ public class SetSubCommand extends SubCommand {
 
     try {
       Set<String> keys = Objects.requireNonNull(
-          OxMines.getInstance().getConfig()
-              .getConfigurationSection("mines." + mineName + ".blocks"))
+          MinesFile.getConfigurationSection("mines." + mineName + ".blocks"))
           .getKeys(false);
       int currentTotal = 0;
       for (String key : keys) {
-        Integer val = OxMines.getInstance().getConfig()
-            .getInt("mines." + mineName + ".blocks." + key);
+        Integer val = MinesFile.getInt("mines." + mineName + ".blocks." + key);
         if (val != null) {
           currentTotal += val;
         }
@@ -101,9 +100,8 @@ public class SetSubCommand extends SubCommand {
     } catch (Exception ignored) { // first block set, no existing section
     }
 
-    OxMines.getInstance().getConfig()
-        .set("mines." + mineName + ".blocks." + blockName.toLowerCase(), percentage);
-    OxMines.getInstance().saveConfig();
+    MinesFile.set("mines." + mineName + ".blocks." + blockName.toLowerCase(), percentage);
+    MinesFile.save();
 
     Messages.send(player, "set.success",
         "block", blockName.toLowerCase(),

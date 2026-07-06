@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.migrations.MigrationRunner;
+import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.TimerLoader;
 
 /** Subcommand to reload plugin configuration and schedules. */
@@ -39,9 +41,8 @@ public class ReloadSubCommand extends SubCommand {
     Messages.send(player, "reload.start");
 
     OxMines.getInstance().reloadConfig();
-    OxMines.getInstance().saveDefaultConfig();
-    OxMines.getInstance().getConfig().options().copyDefaults();
-    OxMines.getInstance().saveConfig();
+    MinesFile.load();
+    MigrationRunner.run();
 
     Messages.load();
 

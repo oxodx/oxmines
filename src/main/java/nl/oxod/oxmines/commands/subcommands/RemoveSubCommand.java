@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.MineScheduler;
 
 /** Subcommand to remove a mine. */
@@ -43,13 +44,13 @@ public class RemoveSubCommand extends SubCommand {
 
     String mineName = args[1];
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
+    if (MinesFile.get("mines." + mineName) == null) {
       Messages.send(player, "general.mine-not-found");
       return;
     }
 
-    OxMines.getInstance().getConfig().set("mines." + mineName, null);
-    OxMines.getInstance().saveConfig();
+    MinesFile.set("mines." + mineName, null);
+    MinesFile.save();
 
     MineScheduler.cancelRegeneration(mineName);
     MineScheduler.cancelClearCheck(mineName);

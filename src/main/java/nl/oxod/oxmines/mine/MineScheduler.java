@@ -39,8 +39,7 @@ public class MineScheduler {
               () -> {
                 MineRegenerator.regenerate(mineName);
                 try {
-                  if (OxMines.getInstance().getConfig()
-                      .getBoolean("mines." + mineName + ".announceRegen")) {
+                  if (MinesFile.getBoolean("mines." + mineName + ".announceRegen")) {
                     for (Player p : OxMines.getInstance().getServer()
                         .getOnlinePlayers()) {
                       Messages.send(p, "scheduler.regenerated", "mine", mineName);
@@ -112,14 +111,10 @@ public class MineScheduler {
               OxMines.getInstance(),
               () -> {
                 try {
-                  if (OxMines.getInstance().getConfig()
-                      .get("mines." + mineName + ".resetWhenEmpty") != null
-                      && OxMines.getInstance().getConfig()
-                          .getBoolean("mines." + mineName + ".resetWhenEmpty")) {
-                    Location pos1 = OxMines.getInstance().getConfig()
-                        .getLocation("mines." + mineName + ".pos1");
-                    Location pos2 = OxMines.getInstance().getConfig()
-                        .getLocation("mines." + mineName + ".pos2");
+                  if (MinesFile.get("mines." + mineName + ".resetWhenEmpty") != null
+                      && MinesFile.getBoolean("mines." + mineName + ".resetWhenEmpty")) {
+                    Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
+                    Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
 
                     List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 
@@ -134,8 +129,7 @@ public class MineScheduler {
                     if (!foundAnything) {
                       MineRegenerator.regenerate(mineName);
                       try {
-                        if (OxMines.getInstance().getConfig()
-                            .getBoolean("mines." + mineName + ".announceRegen")) {
+                      if (MinesFile.getBoolean("mines." + mineName + ".announceRegen")) {
                           for (Player p : OxMines.getInstance()
                               .getServer().getOnlinePlayers()) {
                             Messages.send(p, "scheduler.regenerated",
