@@ -1,0 +1,16 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/flake.lock": true,
+    "**/gradlew": true,
+    "**/gradlew.bat": true,
+    "**/gradle/": true,
+    "**/.gradle/": true
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
+}
