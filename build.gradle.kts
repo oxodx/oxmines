@@ -130,7 +130,7 @@ tasks.withType<SpotBugsTask>().configureEach {
 }
 
 tasks.spotbugsMain {
-  onlyIf { false }
+  onlyIf { System.getenv("CI") != null }
 }
 
 val shadowJar = tasks.named<ShadowJar>("shadowJar") {
