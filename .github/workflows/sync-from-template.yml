@@ -49,16 +49,29 @@ jobs:
         run: |
           IGNORE_FILE="${THIS_REPO}/.templateignore"
 
-          cd "${REPO_TEMPLATE}"
-          find . -type f | while read -r raw_file; do
-            # Strip the leading './' to get clean relative paths (e.g., src/index.js)
-            clean_file="${raw_file#./}"
+          SANDBOX="/tmp/git_sandbox"
+          mkdir -p "$SANDBOX"
+          cd "$SANDBOX"
 
-            if git check-ignore --quiet --no-index --no-exclude-standard --exclude-from=/tmp/base_ignores "$clean_file" 2>/dev/null; then
+          git init -q
+
+          if [ -f "../../${IGNORE_FILE}" ]; then
+            cat "../../${IGNORE_FILE}" >> .gitignore
+          fi
+
+          cd "../../${REPO_TEMPLATE}"
+          find * -type f 2>/dev/null | while read -r clean_file; do
+
+            # Change directory to the sandbox so Git evaluates the path relative to the root
+            cd "$SANDBOX"
+
+            if git check-ignore --quiet "$clean_file" 2>/dev/null; then
               echo "INFO: Skipping ignored path: $clean_file"
+              cd "../../${REPO_TEMPLATE}"
               continue
             fi
 
+            cd "../../${REPO_TEMPLATE}"
             _src="${clean_file}"
             _dst="../${THIS_REPO}/${clean_file}"
 
@@ -67,6 +80,7 @@ jobs:
             cp "${_src}" "$_dst"
           done
 
+          # Go back to root and show changes
           cd ..
           git -C "${THIS_REPO}" diff
       - name: Commit changes, if any
