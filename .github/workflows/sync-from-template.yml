@@ -57,13 +57,6 @@ jobs:
 
           git init -q
 
-          cat << 'EOF' > .gitignore
-          /.git/
-          /.github/workflows/
-          /.gitignore
-          /README.md
-          EOF
-
           if [ -f "$IGNORE_FILE" ]; then
             cat "$IGNORE_FILE" >> .gitignore
           fi
@@ -72,9 +65,29 @@ jobs:
           find * -type f 2>/dev/null | while read -r clean_file; do
 
             cd "$SANDBOX"
-            # Prepend a / to the file path so rules like /src/ match correctly
+
+            # Check directory structures step-by-step to catch trailing slash rules (like /src/)
+            SKIP=0
+            IFS='/' read -r -a parts <<< "$clean_file"
+            current_path=""
+
+            # Check parent directories first
+            for ((i=0; i<${#parts[@]}-1; i++)); do
+              current_path="$current_path/${parts[i]}"
+              if git check-ignore --quiet -d "$current_path/" 2>/dev/null; then
+                echo "INFO: Skipping ignored directory: $current_path/"
+                SKIP=1
+                break
+              fi
+            done
+
+            if [ $SKIP -eq 1 ]; then
+              continue
+            fi
+
+            # Check the specific file itself
             if git check-ignore --quiet "/$clean_file" 2>/dev/null; then
-              echo "INFO: Skipping ignored path: $clean_file"
+              echo "INFO: Skipping ignored file: /$clean_file"
               continue
             fi
 
