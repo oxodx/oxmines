@@ -1,6 +1,7 @@
 package nl.oxod.oxmines.migrations;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.mine.MinesFile;
@@ -32,10 +33,7 @@ public class Migration1741267200 implements Migration {
     OxMines.getInstance().getLogger().info(
         "Running migration: extracting mines from config.yml...");
 
-    for (String key : oldMines.getKeys(false)) {
-      MinesFile.set("mines." + key, oldMines.get("mines." + key));
-    }
-
+    transferMines(oldMines, MinesFile.getHandle());
     MinesFile.save();
 
     OxMines.getInstance().getConfig().set("mines", null);
@@ -44,5 +42,23 @@ public class Migration1741267200 implements Migration {
     OxMines.getInstance().getLogger().info(
         "Migration complete: "
             + oldMines.getKeys(false).size() + " mine(s) moved to mines.yml");
+  }
+
+  /**
+   * Transfers mine entries from a source configuration section into a
+   * target file configuration. Used directly by tests.
+   *
+   * @param source the old {@code mines} section from config.yml
+   * @param target the mines.yml file configuration
+   * @return number of mines transferred
+   */
+  static int transferMines(ConfigurationSection source,
+      FileConfiguration target) {
+    int count = 0;
+    for (String key : source.getKeys(false)) {
+      target.set("mines." + key, source.get(key));
+      count++;
+    }
+    return count;
   }
 }

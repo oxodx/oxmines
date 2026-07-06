@@ -100,6 +100,13 @@ public final class MinesFile {
   }
 
   /**
+   * Returns the underlying {@link FileConfiguration} for direct access.
+   */
+  public static FileConfiguration getHandle() {
+    return mines;
+  }
+
+  /**
    * Returns true when the loaded config contains at least one mine entry.
    */
   public static boolean hasMineData() {
