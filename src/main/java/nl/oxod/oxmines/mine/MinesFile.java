@@ -67,4 +67,9 @@ public final class MinesFile {
   public static ConfigurationSection getConfigurationSection(String path) {
     return mines.getConfigurationSection(path);
   }
+
+  public static boolean hasMineData() {
+    ConfigurationSection section = mines.getConfigurationSection("mines");
+    return section != null && !section.getKeys(false).isEmpty();
+  }
 }

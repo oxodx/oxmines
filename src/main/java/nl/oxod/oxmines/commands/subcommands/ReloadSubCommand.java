@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MigrationRunner;
 import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.TimerLoader;
 
@@ -41,6 +42,7 @@ public class ReloadSubCommand extends SubCommand {
 
     OxMines.getInstance().reloadConfig();
     MinesFile.load();
+    MigrationRunner.run();
 
     Messages.load();
 
