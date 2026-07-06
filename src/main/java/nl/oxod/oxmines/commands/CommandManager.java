@@ -44,7 +44,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
   /** Creates a new CommandManager and registers all subcommands. */
   public CommandManager() {
     subCommands.add(new ClearSubCommand());
-    if (OxMines.worldeditEnabled) {
+    if (OxMines.isWorldeditEnabled()) {
       subCommands.add(new AddWeSubCommand());
     } else {
       subCommands.add(new AddSubCommand());
@@ -66,7 +66,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
   }
 
   public ArrayList<SubCommand> getSubCommands() {
-    return subCommands;
+    return new ArrayList<>(subCommands);
   }
 
   @Override

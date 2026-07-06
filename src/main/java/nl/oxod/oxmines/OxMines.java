@@ -16,6 +16,8 @@ import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.TimerLoader;
 import nl.oxod.oxmines.region.SelectionManager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Main plugin class for OxMines - auto-regenerating mining areas.
  *
@@ -26,13 +28,23 @@ import nl.oxod.oxmines.region.SelectionManager;
 public class OxMines extends JavaPlugin implements Listener {
   private static OxMines instance;
 
+  @SuppressFBWarnings(
+      value = "MS_EXPOSE_REP",
+      justification = "Bukkit plugin singleton pattern")
   public static OxMines getInstance() {
     return instance;
   }
 
-  public static boolean worldeditEnabled = true;
+  private static boolean worldeditEnabled = true;
+
+  public static boolean isWorldeditEnabled() {
+    return worldeditEnabled;
+  }
 
   @Override
+  @SuppressFBWarnings(
+      value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+      justification = "Bukkit plugin singleton pattern")
   public void onEnable() {
     if (getServer().getPluginManager()
         .getPlugin("WorldEdit") == null) {
@@ -54,8 +66,11 @@ public class OxMines extends JavaPlugin implements Listener {
     getServer().getPluginManager().registerEvents(new WandListener(), this);
     getServer().getPluginManager().registerEvents(this, this);
 
-    getCommand("oxmines").setExecutor(new CommandManager());
-    getCommand("oxmines").setTabCompleter(new CommandManager());
+    var cmd = getCommand("oxmines");
+    if (cmd != null) {
+      cmd.setExecutor(new CommandManager());
+      cmd.setTabCompleter(new CommandManager());
+    }
   }
 
   /**

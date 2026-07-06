@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -102,6 +104,9 @@ public final class MinesFile {
   /**
    * Returns the underlying {@link FileConfiguration} for direct access.
    */
+  @SuppressFBWarnings(
+      value = "MS_EXPOSE_REP",
+      justification = "Intended API for direct FileConfiguration access")
   public static FileConfiguration getHandle() {
     return mines;
   }

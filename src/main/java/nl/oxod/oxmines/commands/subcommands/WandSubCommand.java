@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import nl.oxod.oxmines.commands.SubCommand;
@@ -40,6 +41,9 @@ public class WandSubCommand extends SubCommand {
   }
 
   @Override
+  @SuppressFBWarnings(
+      value = "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+      justification = "setItemMeta mutates the ItemStack in-place despite returning boolean")
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.wand")) {
       Messages.send(player, "general.no-permission");

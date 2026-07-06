@@ -3,6 +3,7 @@ package nl.oxod.oxmines.commands.subcommands;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.regions.Region;
@@ -39,6 +40,9 @@ public class AddWeSubCommand extends SubCommand {
   }
 
   @Override
+  @SuppressFBWarnings(
+      value = "DE_MIGHT_IGNORE",
+      justification = "WorldEdit selection failure falls through to manual selection intentionally")
   public void perform(Player player, String[] args) {
     if (!player.hasPermission("oxmines.add")) {
       Messages.send(player, "general.no-permission");
@@ -80,7 +84,7 @@ public class AddWeSubCommand extends SubCommand {
             selectedRegion.getMaximumPoint().x(),
             selectedRegion.getMaximumPoint().y(),
             selectedRegion.getMaximumPoint().z());
-      } catch (Exception e) {
+      } catch (Exception ignored) {
         // fall through to manual selection
       }
     }

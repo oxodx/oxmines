@@ -1,8 +1,9 @@
 package nl.oxod.oxmines.mine;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
+
+import org.bukkit.configuration.ConfigurationSection;
 
 import nl.oxod.oxmines.OxMines;
 
@@ -17,28 +18,27 @@ public class TimerLoader {
    * @return true if at least one mine was found
    */
   public static boolean loadAll() {
-    try {
-      MineScheduler.cancelAll();
+    MineScheduler.cancelAll();
 
-      Set<String> keys = Objects.requireNonNull(
-          MinesFile.getConfigurationSection("mines"))
-          .getKeys(false);
-
-      for (String key : keys) {
-        if (MinesFile.get("mines." + key + ".regenInterval") != null
-            && MinesFile.getInt("mines." + key + ".regenInterval") > 0) {
-          MineScheduler.scheduleRegeneration(key,
-              MinesFile.getInt("mines." + key + ".regenInterval"));
-        }
-        if (MinesFile.getBoolean("mines." + key + ".resetWhenEmpty")) {
-          MineScheduler.scheduleClearCheck(key, 1);
-        }
-      }
-      return true;
-    } catch (NullPointerException e) {
+    ConfigurationSection minesSection = MinesFile.getConfigurationSection("mines");
+    if (minesSection == null) {
       OxMines.getInstance().getLogger()
           .log(Level.INFO, "No mines created.");
       return false;
     }
+
+    Set<String> keys = minesSection.getKeys(false);
+
+    for (String key : keys) {
+      if (MinesFile.get("mines." + key + ".regenInterval") != null
+          && MinesFile.getInt("mines." + key + ".regenInterval") > 0) {
+        MineScheduler.scheduleRegeneration(key,
+            MinesFile.getInt("mines." + key + ".regenInterval"));
+      }
+      if (MinesFile.getBoolean("mines." + key + ".resetWhenEmpty")) {
+        MineScheduler.scheduleClearCheck(key, 1);
+      }
+    }
+    return true;
   }
 }

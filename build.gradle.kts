@@ -129,10 +129,6 @@ tasks.withType<SpotBugsTask>().configureEach {
   }
 }
 
-tasks.spotbugsMain {
-  onlyIf { System.getenv("CI") != null }
-}
-
 val shadowJar = tasks.named<ShadowJar>("shadowJar") {
   archiveClassifier.set("")
   mergeServiceFiles()

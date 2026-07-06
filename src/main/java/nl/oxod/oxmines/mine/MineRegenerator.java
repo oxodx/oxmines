@@ -1,9 +1,9 @@
 package nl.oxod.oxmines.mine;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.logging.Level;
 
 import org.bukkit.Location;
@@ -19,6 +19,7 @@ import nl.oxod.oxmines.region.BlockSelector;
  * them.
  */
 public class MineRegenerator {
+  private static final SecureRandom RANDOM = new SecureRandom();
 
   /**
    * Regenerates a mine with its configured block types and percentages.
@@ -64,8 +65,7 @@ public class MineRegenerator {
             continue;
           }
 
-          Random r = new Random();
-          boolean chosen = (r.nextInt(99) + 1) <= entry.getValue();
+          boolean chosen = (RANDOM.nextInt(99) + 1) <= entry.getValue();
           if (chosen) {
             choseOne = true;
             block.setType(entry.getKey());
@@ -91,7 +91,7 @@ public class MineRegenerator {
           // No warp set: leave player where they are (warp is optional)
         }
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       return false;
     }
 
@@ -114,7 +114,7 @@ public class MineRegenerator {
       for (Block block : blocksInArea) {
         block.setType(Material.AIR);
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       return false;
     }
 

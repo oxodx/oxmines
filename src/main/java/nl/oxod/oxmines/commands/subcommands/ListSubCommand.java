@@ -1,11 +1,10 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import java.util.Objects;
 import java.util.Set;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.MinesFile;
@@ -40,11 +39,9 @@ public class ListSubCommand extends SubCommand {
     }
 
     Messages.send(player, "list.header");
-    try {
-      Set<String> keys = Objects.requireNonNull(
-          MinesFile.getConfigurationSection("mines"))
-          .getKeys(false);
-
+    ConfigurationSection minesSection = MinesFile.getConfigurationSection("mines");
+    if (minesSection != null) {
+      Set<String> keys = minesSection.getKeys(false);
       if (keys.isEmpty()) {
         Messages.send(player, "list.empty");
       } else {
@@ -52,7 +49,7 @@ public class ListSubCommand extends SubCommand {
           Messages.send(player, "list.entry", "mine", key);
         }
       }
-    } catch (NullPointerException e) {
+    } else {
       Messages.send(player, "list.empty");
     }
   }

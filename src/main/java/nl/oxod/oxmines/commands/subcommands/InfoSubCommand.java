@@ -1,9 +1,9 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import java.util.Objects;
 import java.util.Set;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import nl.oxod.oxmines.OxMines;
@@ -93,11 +93,10 @@ public class InfoSubCommand extends SubCommand {
       Messages.send(player, "info.warp-not-set");
     }
 
-    try {
-      Set<String> blockKeys = Objects.requireNonNull(
-          MinesFile.getConfigurationSection("mines." + mineName + ".blocks"))
-          .getKeys(false);
-
+    ConfigurationSection blocksSection = MinesFile.getConfigurationSection(
+        "mines." + mineName + ".blocks");
+    if (blocksSection != null) {
+      Set<String> blockKeys = blocksSection.getKeys(false);
       if (!blockKeys.isEmpty()) {
         Messages.send(player, "info.blocks-header");
         for (String key : blockKeys) {
@@ -108,7 +107,7 @@ public class InfoSubCommand extends SubCommand {
       } else {
         Messages.send(player, "info.blocks-none");
       }
-    } catch (NullPointerException e) {
+    } else {
       Messages.send(player, "info.blocks-none");
     }
   }
