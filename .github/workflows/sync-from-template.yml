@@ -66,16 +66,14 @@ jobs:
 
             cd "$SANDBOX"
 
-            # Check directory structures step-by-step to catch trailing slash rules (like /src/)
             SKIP=0
             IFS='/' read -r -a parts <<< "$clean_file"
             current_path=""
 
-            # Check parent directories first
             for ((i=0; i<${#parts[@]}-1; i++)); do
-              current_path="$current_path/${parts[i]}"
-              if git check-ignore --quiet -d "$current_path/" 2>/dev/null; then
-                echo "INFO: Skipping ignored directory: $current_path/"
+              current_path="${current_path}/${parts[i]}"
+              if git check-ignore --quiet -d "${current_path}/" 2>/dev/null; then
+                echo "INFO: Skipping ignored directory: ${current_path}/"
                 SKIP=1
                 break
               fi
@@ -85,7 +83,6 @@ jobs:
               continue
             fi
 
-            # Check the specific file itself
             if git check-ignore --quiet "/$clean_file" 2>/dev/null; then
               echo "INFO: Skipping ignored file: /$clean_file"
               continue
