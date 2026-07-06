@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 
 /** Subcommand to set a custom warp teleport point for a mine. */
 public class SetWarpSubCommand extends SubCommand {
@@ -43,14 +44,14 @@ public class SetWarpSubCommand extends SubCommand {
 
     String mineName = args[1];
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
+    if (MinesFile.get("mines." + mineName) == null) {
       Messages.send(player, "general.mine-not-found");
       return;
     }
 
     Location loc = player.getLocation();
-    OxMines.getInstance().getConfig().set("mines." + mineName + ".warp", loc);
-    OxMines.getInstance().saveConfig();
+    MinesFile.set("mines." + mineName + ".warp", loc);
+    MinesFile.save();
 
     Messages.send(player, "setwarp.success",
         "mine", mineName,

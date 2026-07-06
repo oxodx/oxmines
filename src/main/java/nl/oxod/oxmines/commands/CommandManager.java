@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.subcommands.AddSubCommand;
+import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.commands.subcommands.AddWeSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ClearSubCommand;
 import nl.oxod.oxmines.commands.subcommands.DelWarpSubCommand;
@@ -93,8 +94,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
             "reset", "tp", "clear", "info").contains(args[0])) {
           try {
             Set<String> keys = Objects.requireNonNull(
-                OxMines.getInstance().getConfig()
-                    .getConfigurationSection("mines"))
+                MinesFile.getConfigurationSection("mines"))
                 .getKeys(false);
             return keys.stream()
                 .filter(k -> k.startsWith(args[1]))
@@ -118,8 +118,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
           case "unset":
             try {
               Set<String> keys = Objects.requireNonNull(
-                  OxMines.getInstance().getConfig()
-                      .getConfigurationSection("mines." + args[1] + ".blocks"))
+                  MinesFile.getConfigurationSection("mines." + args[1] + ".blocks"))
                   .getKeys(false);
               return keys.stream()
                   .filter(k -> k.startsWith(args[2]))

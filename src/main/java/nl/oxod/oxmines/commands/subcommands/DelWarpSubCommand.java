@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 
 /** Subcommand to remove a mine's custom warp point. */
 public class DelWarpSubCommand extends SubCommand {
@@ -42,18 +43,18 @@ public class DelWarpSubCommand extends SubCommand {
 
     String mineName = args[1];
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName) == null) {
+    if (MinesFile.get("mines." + mineName) == null) {
       Messages.send(player, "general.mine-not-found");
       return;
     }
 
-    if (OxMines.getInstance().getConfig().get("mines." + mineName + ".warp") == null) {
+    if (MinesFile.get("mines." + mineName + ".warp") == null) {
       Messages.send(player, "delwarp.no-warp");
       return;
     }
 
-    OxMines.getInstance().getConfig().set("mines." + mineName + ".warp", null);
-    OxMines.getInstance().saveConfig();
+    MinesFile.set("mines." + mineName + ".warp", null);
+    MinesFile.save();
 
     Messages.send(player, "delwarp.success", "mine", mineName);
   }

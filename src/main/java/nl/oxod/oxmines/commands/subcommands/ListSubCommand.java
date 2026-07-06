@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 
 /** Subcommand to list all configured mines. */
 public class ListSubCommand extends SubCommand {
@@ -41,8 +42,7 @@ public class ListSubCommand extends SubCommand {
     Messages.send(player, "list.header");
     try {
       Set<String> keys = Objects.requireNonNull(
-          OxMines.getInstance().getConfig()
-              .getConfigurationSection("mines"))
+          MinesFile.getConfigurationSection("mines"))
           .getKeys(false);
 
       if (keys.isEmpty()) {

@@ -29,20 +29,18 @@ public class MineRegenerator {
    */
   public static boolean regenerate(String mineName) {
     try {
-      Location pos1 = OxMines.getInstance().getConfig()
-          .getLocation("mines." + mineName + ".pos1");
-      Location pos2 = OxMines.getInstance().getConfig()
-          .getLocation("mines." + mineName + ".pos2");
+      Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
+      Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
 
       HashMap<Material, Integer> blocks = new HashMap<>();
 
-      for (String blockName : OxMines.getInstance().getConfig()
-          .getConfigurationSection("mines." + mineName + ".blocks")
+      for (String blockName : MinesFile.getConfigurationSection(
+          "mines." + mineName + ".blocks")
           .getKeys(false)) {
         for (Material m : Material.values()) {
           if (m.isBlock() && m.name().equals(blockName.toUpperCase())) {
-            blocks.put(m, OxMines.getInstance().getConfig()
-                .getInt("mines." + mineName + ".blocks." + blockName));
+            blocks.put(m, MinesFile.getInt(
+                "mines." + mineName + ".blocks." + blockName));
             break;
           }
         }
@@ -83,8 +81,7 @@ public class MineRegenerator {
         }
       }
 
-      Location warp = OxMines.getInstance().getConfig()
-          .getLocation("mines." + mineName + ".warp");
+      Location warp = MinesFile.getLocation("mines." + mineName + ".warp");
 
       for (Player p : OxMines.getInstance().getServer().getOnlinePlayers()) {
         if (RegionChecker.isPlayerInRegion(p, pos1, pos2)) {
@@ -109,10 +106,8 @@ public class MineRegenerator {
    */
   public static boolean clear(String mineName) {
     try {
-      Location pos1 = OxMines.getInstance().getConfig()
-          .getLocation("mines." + mineName + ".pos1");
-      Location pos2 = OxMines.getInstance().getConfig()
-          .getLocation("mines." + mineName + ".pos2");
+      Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
+      Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
 
       List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 

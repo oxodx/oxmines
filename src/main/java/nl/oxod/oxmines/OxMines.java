@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import nl.oxod.oxmines.commands.CommandManager;
 import nl.oxod.oxmines.listeners.WandListener;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.TimerLoader;
 import nl.oxod.oxmines.region.SelectionManager;
 
@@ -44,6 +45,7 @@ public class OxMines extends JavaPlugin implements Listener {
     saveDefaultConfig();
 
     Messages.load();
+    MinesFile.load();
 
     TimerLoader.loadAll();
 

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import nl.oxod.oxmines.OxMines;
 import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
+import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.MineScheduler;
 
 /**
@@ -66,8 +67,7 @@ public class RuleSubCommand extends SubCommand {
           return;
         }
 
-        boolean curVal = OxMines.getInstance().getConfig()
-            .getBoolean("mines." + mineName + ".announceRegen");
+        boolean curVal = MinesFile.getBoolean("mines." + mineName + ".announceRegen");
         boolean newVal = value.equalsIgnoreCase("true");
 
         if (curVal == newVal) {
@@ -79,8 +79,7 @@ public class RuleSubCommand extends SubCommand {
           return;
         }
 
-        OxMines.getInstance().getConfig()
-            .set("mines." + mineName + ".announceRegen", newVal);
+        MinesFile.set("mines." + mineName + ".announceRegen", newVal);
 
         String changeKey = newVal
             ? "rule.state-now-announcing"
@@ -89,8 +88,7 @@ public class RuleSubCommand extends SubCommand {
             "mine", mineName, "state", Messages.raw(changeKey));
       }
       case "regentime" -> {
-        if (OxMines.getInstance().getConfig()
-            .get("mines." + mineName) == null) {
+        if (MinesFile.get("mines." + mineName) == null) {
           Messages.send(player, "general.mine-not-found");
           return;
         }
@@ -112,8 +110,7 @@ public class RuleSubCommand extends SubCommand {
               "mine", mineName, "time", String.valueOf(timeInSeconds));
         }
 
-        OxMines.getInstance().getConfig()
-            .set("mines." + mineName + ".regenInterval", timeInSeconds);
+        MinesFile.set("mines." + mineName + ".regenInterval", timeInSeconds);
       }
       case "resetwhenempty" -> {
         if (!value.equalsIgnoreCase("true")
@@ -122,8 +119,7 @@ public class RuleSubCommand extends SubCommand {
           return;
         }
 
-        boolean curVal = OxMines.getInstance().getConfig()
-            .getBoolean("mines." + mineName + ".resetWhenEmpty");
+        boolean curVal = MinesFile.getBoolean("mines." + mineName + ".resetWhenEmpty");
         boolean newVal = value.equalsIgnoreCase("true");
 
         if (curVal == newVal) {
@@ -135,8 +131,7 @@ public class RuleSubCommand extends SubCommand {
           return;
         }
 
-        OxMines.getInstance().getConfig()
-            .set("mines." + mineName + ".resetWhenEmpty", newVal);
+        MinesFile.set("mines." + mineName + ".resetWhenEmpty", newVal);
 
         if (newVal) {
           MineScheduler.scheduleClearCheck(mineName, 1);
@@ -150,7 +145,7 @@ public class RuleSubCommand extends SubCommand {
       }
     }
 
-    OxMines.getInstance().saveConfig();
+    MinesFile.save();
     Messages.send(player, "rule.success",
         "rule", rule, "mine", mineName, "value", value);
   }
