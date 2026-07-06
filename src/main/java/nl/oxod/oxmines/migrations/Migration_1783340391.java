@@ -1,5 +1,7 @@
 package nl.oxod.oxmines.migrations;
 
+import java.util.logging.Level;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import nl.oxod.oxmines.OxMines;
@@ -36,8 +38,7 @@ public class Migration_1783340391 implements Migration {
     OxMines.getInstance().getConfig().set("mines", null);
     OxMines.getInstance().saveConfig();
 
-    OxMines.getInstance().getLogger().info(
-        "Migration 1783340391 complete: "
-            + oldMines.getKeys(false).size() + " mine(s) moved to mines.yml");
+    OxMines.getInstance().getLogger().log(Level.INFO, "Migration 1783340391 complete: {0} mine(s) moved to mines.yml",
+        oldMines.getKeys(false).size());
   }
 }
