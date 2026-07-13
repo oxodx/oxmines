@@ -70,7 +70,7 @@ repositories {
 val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
-  compileOnly("io.papermc.paper:paper-api:26.1.2.build.72-stable")
+  compileOnly("io.papermc.paper:paper-api:26.1.2.build.74-stable")
 
   compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.13") {
     exclude(group = "com.google.guava", module = "guava")
@@ -82,7 +82,7 @@ dependencies {
   compileOnly("com.github.spotbugs:spotbugs-annotations:4.10.2")
   spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
   testCompileOnly("com.github.spotbugs:spotbugs-annotations:4.10.2")
-  testImplementation("io.papermc.paper:paper-api:26.1.2.build.72-stable")
+  testImplementation("io.papermc.paper:paper-api:26.1.2.build.74-stable")
   testImplementation("org.junit.jupiter:junit-jupiter:6.1.1")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.1")
 
