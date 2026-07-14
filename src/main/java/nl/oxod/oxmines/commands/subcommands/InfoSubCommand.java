@@ -98,12 +98,20 @@ public class InfoSubCommand extends SubCommand {
     if (blocksSection != null) {
       Set<String> blockKeys = blocksSection.getKeys(false);
       if (!blockKeys.isEmpty()) {
+        int totalWeight = 0;
+        for (String key : blockKeys) {
+          totalWeight += MinesFile.getInt("mines." + mineName + ".blocks." + key);
+        }
         Messages.send(player, "info.blocks-header");
         for (String key : blockKeys) {
-          int pct = MinesFile.getInt("mines." + mineName + ".blocks." + key);
+          int w = MinesFile.getInt("mines." + mineName + ".blocks." + key);
+          double pct = totalWeight > 0 ? (w * 100.0 / totalWeight) : 0;
           Messages.send(player, "info.block-entry",
-              "block", key, "pct", String.valueOf(pct));
+              "block", key,
+              "weight", String.valueOf(w),
+              "pct", String.format("%.1f", pct));
         }
+        Messages.send(player, "info.blocks-total", "total", String.valueOf(totalWeight));
       } else {
         Messages.send(player, "info.blocks-none");
       }

@@ -1,8 +1,5 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import java.util.Objects;
-import java.util.Set;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -11,7 +8,7 @@ import nl.oxod.oxmines.commands.SubCommand;
 import nl.oxod.oxmines.messages.Messages;
 import nl.oxod.oxmines.mine.MinesFile;
 
-/** Subcommand to set a block type with a percentage for a mine. */
+/** Subcommand to set a block type with a weight for a mine. */
 public class SetSubCommand extends SubCommand {
   @Override
   public String getName() {
@@ -20,12 +17,12 @@ public class SetSubCommand extends SubCommand {
 
   @Override
   public String getDescription() {
-    return "Set a block for a mine";
+    return "Set a block weight for a mine";
   }
 
   @Override
   public String getSyntax() {
-    return "/oxmines set <minename> <block> <percentage>";
+    return "/oxmines set <minename> <block> <weight>";
   }
 
   @Override
@@ -70,42 +67,29 @@ public class SetSubCommand extends SubCommand {
     }
 
     if (args.length < 4 || args[3].isEmpty()) {
-      Messages.send(player, "set.missing-percentage");
+      Messages.send(player, "set.missing-weight");
       return;
     }
 
-    int percentage;
+    int weight;
     try {
-      percentage = Integer.parseInt(args[3]);
+      weight = Integer.parseInt(args[3]);
     } catch (NumberFormatException e) {
-      Messages.send(player, "set.invalid-percentage");
+      Messages.send(player, "set.invalid-weight");
       return;
     }
 
-    try {
-      Set<String> keys = Objects.requireNonNull(
-          MinesFile.getConfigurationSection("mines." + mineName + ".blocks"))
-          .getKeys(false);
-      int currentTotal = 0;
-      for (String key : keys) {
-        Integer val = MinesFile.getInt("mines." + mineName + ".blocks." + key);
-        if (val != null) {
-          currentTotal += val;
-        }
-      }
-      if (currentTotal + percentage > 100) {
-        Messages.send(player, "set.exceed-100", "total", String.valueOf(currentTotal));
-        return;
-      }
-    } catch (Exception ignored) { // first block set, no existing section
+    if (weight <= 0) {
+      Messages.send(player, "set.invalid-weight");
+      return;
     }
 
-    MinesFile.set("mines." + mineName + ".blocks." + blockName.toLowerCase(), percentage);
+    MinesFile.set("mines." + mineName + ".blocks." + blockName.toLowerCase(), weight);
     MinesFile.save();
 
     Messages.send(player, "set.success",
         "block", blockName.toLowerCase(),
-        "pct", String.valueOf(percentage),
+        "weight", String.valueOf(weight),
         "mine", mineName);
   }
 }
