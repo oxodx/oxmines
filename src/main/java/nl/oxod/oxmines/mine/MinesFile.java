@@ -95,6 +95,13 @@ public final class MinesFile {
   }
 
   /**
+   * Returns a double at the given path, or 0.0.
+   */
+  public static double getDouble(String path) {
+    return mines.getDouble(path);
+  }
+
+  /**
    * Returns a {@link ConfigurationSection} at the given path, or null.
    */
   public static ConfigurationSection getConfigurationSection(String path) {

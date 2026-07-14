@@ -71,15 +71,15 @@ public class SetSubCommand extends SubCommand {
       return;
     }
 
-    int weight;
+    double weight;
     try {
-      weight = Integer.parseInt(args[3]);
+      weight = Double.parseDouble(args[3]);
     } catch (NumberFormatException e) {
       Messages.send(player, "set.invalid-weight");
       return;
     }
 
-    if (weight <= 0) {
+    if (weight <= 0.0) {
       Messages.send(player, "set.invalid-weight");
       return;
     }

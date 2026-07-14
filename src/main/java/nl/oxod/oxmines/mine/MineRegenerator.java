@@ -30,13 +30,13 @@ public class MineRegenerator {
    * @return the selected material, or null if selection fails
    */
   static Material selectBlock(List<Material> blockTypes,
-      List<Integer> weights, int totalWeight, SecureRandom random) {
-    int roll = random.nextInt(totalWeight);
-    int cumulative = 0;
+      List<Double> weights, double totalWeight, SecureRandom random) {
+    double roll = random.nextDouble() * totalWeight;
+    double cumulative = 0.0;
 
     for (int i = 0; i < blockTypes.size(); i++) {
       cumulative += weights.get(i);
-      if (roll < cumulative) {
+      if (roll <= cumulative) {
         return blockTypes.get(i);
       }
     }
@@ -53,14 +53,14 @@ public class MineRegenerator {
   public static boolean regenerate(String mineName) {
     try {
       List<Material> blockTypes = new ArrayList<>();
-      List<Integer> weights = new ArrayList<>();
+      List<Double> weights = new ArrayList<>();
 
       for (String blockName : MinesFile.getConfigurationSection(
           "mines." + mineName + ".blocks")
           .getKeys(false)) {
-        int weight = MinesFile.getInt(
+        double weight = MinesFile.getDouble(
             "mines." + mineName + ".blocks." + blockName);
-        if (weight <= 0) {
+        if (weight <= 0.0) {
           continue;
         }
         for (Material m : Material.values()) {
@@ -78,8 +78,8 @@ public class MineRegenerator {
         return false;
       }
 
-      int totalWeight = 0;
-      for (int w : weights) {
+      double totalWeight = 0.0;
+      for (double w : weights) {
         totalWeight += w;
       }
 
