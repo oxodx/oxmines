@@ -1,9 +1,8 @@
 package nl.oxod.oxmines.mine;
 
 import java.security.SecureRandom;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Location;
@@ -22,7 +21,30 @@ public class MineRegenerator {
   private static final SecureRandom RANDOM = new SecureRandom();
 
   /**
-   * Regenerates a mine with its configured block types and percentages.
+   * Selects a material based on weighted random distribution.
+   *
+   * @param blockTypes the list of block materials
+   * @param weights the corresponding weights
+   * @param totalWeight the sum of all weights
+   * @param random the random instance to use
+   * @return the selected material, or null if selection fails
+   */
+  static Material selectBlock(List<Material> blockTypes,
+      List<Integer> weights, int totalWeight, SecureRandom random) {
+    int roll = random.nextInt(totalWeight);
+    int cumulative = 0;
+
+    for (int i = 0; i < blockTypes.size(); i++) {
+      cumulative += weights.get(i);
+      if (roll < cumulative) {
+        return blockTypes.get(i);
+      }
+    }
+    return blockTypes.get(blockTypes.size() - 1);
+  }
+
+  /**
+   * Regenerates a mine with its configured block types and weights.
    * Teleports players inside to the mine's warp if one is set.
    *
    * @param mineName the name of the mine
@@ -30,54 +52,46 @@ public class MineRegenerator {
    */
   public static boolean regenerate(String mineName) {
     try {
-      Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
-      Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
-
-      HashMap<Material, Integer> blocks = new HashMap<>();
+      List<Material> blockTypes = new ArrayList<>();
+      List<Integer> weights = new ArrayList<>();
 
       for (String blockName : MinesFile.getConfigurationSection(
           "mines." + mineName + ".blocks")
           .getKeys(false)) {
+        int weight = MinesFile.getInt(
+            "mines." + mineName + ".blocks." + blockName);
+        if (weight <= 0) {
+          continue;
+        }
         for (Material m : Material.values()) {
           if (m.isBlock() && m.name().equals(blockName.toUpperCase())) {
-            blocks.put(m, MinesFile.getInt(
-                "mines." + mineName + ".blocks." + blockName));
+            blockTypes.add(m);
+            weights.add(weight);
             break;
           }
         }
       }
 
-      if (blocks.isEmpty()) {
+      if (blockTypes.isEmpty()) {
         OxMines.getInstance().getLogger()
             .log(Level.SEVERE, "Couldn't get block types for mine: " + mineName);
         return false;
       }
 
+      int totalWeight = 0;
+      for (int w : weights) {
+        totalWeight += w;
+      }
+
+      Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
+      Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
       List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 
       for (Block block : blocksInArea) {
-        boolean choseOne = false;
-        Material highest = null;
-        int highestPercentage = 0;
-
-        for (Map.Entry<Material, Integer> entry : blocks.entrySet()) {
-          if (entry.getValue() <= 0) {
-            continue;
-          }
-
-          boolean chosen = (RANDOM.nextInt(99) + 1) <= entry.getValue();
-          if (chosen) {
-            choseOne = true;
-            block.setType(entry.getKey());
-            break;
-          }
-          if (highestPercentage < entry.getValue()) {
-            highestPercentage = entry.getValue();
-            highest = entry.getKey();
-          }
-        }
-        if (!choseOne && highest != null) {
-          block.setType(highest);
+        Material chosen = selectBlock(blockTypes, weights,
+            totalWeight, RANDOM);
+        if (chosen != null) {
+          block.setType(chosen);
         }
       }
 
