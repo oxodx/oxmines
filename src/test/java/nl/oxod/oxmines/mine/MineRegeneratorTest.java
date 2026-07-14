@@ -15,7 +15,7 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_singleWeight_returnsOnlyBlock() {
     List<Material> types = List.of(Material.STONE);
-    List<Integer> weights = List.of(100);
+    List<Double> weights = List.of(100.0);
     SecureRandom random = new SecureRandom();
 
     Material result = MineRegenerator.selectBlock(types, weights, 100,
@@ -27,7 +27,7 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_equalWeights_returnsEitherBlock() {
     List<Material> types = List.of(Material.STONE, Material.DIRT);
-    List<Integer> weights = List.of(50, 50);
+    List<Double> weights = List.of(50.0, 50.0);
     SecureRandom random = new SecureRandom();
 
     int stoneCount = 0;
@@ -50,9 +50,9 @@ class MineRegeneratorTest {
   void selectBlock_weightsAbove100_normalizesCorrectly() {
     List<Material> types = List.of(Material.STONE, Material.DIRT,
         Material.COBBLESTONE);
-    List<Integer> weights = List.of(60, 30, 20);
+    List<Double> weights = List.of(60.0, 30.0, 20.0);
     SecureRandom random = new SecureRandom();
-    int totalWeight = 110;
+    double totalWeight = 110.0;
 
     int stoneCount = 0;
     int dirtCount = 0;
@@ -86,9 +86,9 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_unevenWeights_distributesProportionally() {
     List<Material> types = List.of(Material.STONE, Material.DIRT);
-    List<Integer> weights = List.of(90, 10);
+    List<Double> weights = List.of(90.0, 10.0);
     SecureRandom random = new SecureRandom();
-    int totalWeight = 100;
+    double totalWeight = 100.0;
 
     int stoneCount = 0;
     int iterations = 100000;
@@ -109,9 +109,9 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_dominantWeight_alwaysSelectsDominant() {
     List<Material> types = List.of(Material.STONE, Material.DIRT);
-    List<Integer> weights = List.of(999, 1);
+    List<Double> weights = List.of(999.0, 1.0);
     SecureRandom random = new SecureRandom();
-    int totalWeight = 1000;
+    double totalWeight = 1000.0;
 
     int dirtCount = 0;
     int iterations = 100000;
@@ -133,7 +133,7 @@ class MineRegeneratorTest {
   void selectBlock_uniformWeights_allBlocksSelected() {
     List<Material> types = List.of(Material.STONE, Material.DIRT,
         Material.COBBLESTONE, Material.OAK_PLANKS, Material.SAND);
-    List<Integer> weights = List.of(1, 1, 1, 1, 1);
+    List<Double> weights = List.of(1.0, 1.0, 1.0, 1.0, 1.0);
     SecureRandom random = new SecureRandom();
 
     java.util.Set<Material> seen = new java.util.HashSet<>();
@@ -151,9 +151,9 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_largeWeights_normalizesCorrectly() {
     List<Material> types = List.of(Material.STONE, Material.DIRT);
-    List<Integer> weights = List.of(750, 250);
+    List<Double> weights = List.of(750.0, 250.0);
     SecureRandom random = new SecureRandom();
-    int totalWeight = 1000;
+    double totalWeight = 1000.0;
 
     int stoneCount = 0;
     int iterations = 100000;
@@ -174,7 +174,7 @@ class MineRegeneratorTest {
   void selectBlock_neverReturnsNull() {
     List<Material> types = List.of(Material.STONE, Material.DIRT,
         Material.COBBLESTONE);
-    List<Integer> weights = List.of(1, 1, 1);
+    List<Double> weights = List.of(1.0, 1.0, 1.0);
     SecureRandom random = new SecureRandom();
 
     for (int i = 0; i < 1000; i++) {
@@ -188,7 +188,7 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_alwaysReturnsValidType() {
     List<Material> types = List.of(Material.STONE, Material.DIRT);
-    List<Integer> weights = List.of(60, 40);
+    List<Double> weights = List.of(60.0, 40.0);
     SecureRandom random = new SecureRandom();
     java.util.Set<Material> valid = java.util.Set.of(
         Material.STONE, Material.DIRT);
@@ -204,7 +204,7 @@ class MineRegeneratorTest {
   @Test
   void selectBlock_minimalWeights_distributesCorrectly() {
     List<Material> types = List.of(Material.STONE, Material.DIRT);
-    List<Integer> weights = List.of(1, 2);
+    List<Double> weights = List.of(1.0, 2.0);
     SecureRandom random = new SecureRandom();
 
     int stoneCount = 0;
