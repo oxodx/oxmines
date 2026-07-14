@@ -52,7 +52,7 @@ info.reset-no: "<gray>Reset when empty: <red>no</red></gray>"
 info.warp: "<gray>Warp: <white>{x}, {y}, {z}</white> <gray>({yaw}° / {pitch}°)</gray>"
 info.warp-not-set: "<gray>Warp: <red>not set</red></gray>"
 info.blocks-header: "<gray>Blocks:</gray>"
-info.block-entry: "<gray>  - <white>{block}</white><gray>: weight </gray><white>{weight}</white><gray> (</gray><white>{pct}%</white><gray>)</gray>"
+info.block-entry: "<gray>  - <white>{block}</white><gray>: </gray><white>{pct}</white><gray> (weight: </gray><white>{weight}</white><gray>)</gray>"
 info.blocks-total: "<gray>  Total weight: <white>{total}</white></gray>"
 info.blocks-none: "<gray>Blocks: <red>none configured</red></gray>"
 
