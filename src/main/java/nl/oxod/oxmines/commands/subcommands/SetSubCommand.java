@@ -1,8 +1,5 @@
 package nl.oxod.oxmines.commands.subcommands;
 
-import java.util.Objects;
-import java.util.Set;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -74,38 +71,25 @@ public class SetSubCommand extends SubCommand {
       return;
     }
 
-    int percentage;
+    double weight;
     try {
-      percentage = Integer.parseInt(args[3]);
+      weight = Double.parseDouble(args[3]);
     } catch (NumberFormatException e) {
       Messages.send(player, "set.invalid-percentage");
       return;
     }
 
-    try {
-      Set<String> keys = Objects.requireNonNull(
-          MinesFile.getConfigurationSection("mines." + mineName + ".blocks"))
-          .getKeys(false);
-      int currentTotal = 0;
-      for (String key : keys) {
-        Integer val = MinesFile.getInt("mines." + mineName + ".blocks." + key);
-        if (val != null) {
-          currentTotal += val;
-        }
-      }
-      if (currentTotal + percentage > 100) {
-        Messages.send(player, "set.exceed-100", "total", String.valueOf(currentTotal));
-        return;
-      }
-    } catch (Exception ignored) { // first block set, no existing section
+    if (weight <= 0.0) {
+      Messages.send(player, "set.invalid-percentage");
+      return;
     }
 
-    MinesFile.set("mines." + mineName + ".blocks." + blockName.toLowerCase(), percentage);
+    MinesFile.set("mines." + mineName + ".blocks." + blockName.toLowerCase(), weight);
     MinesFile.save();
 
     Messages.send(player, "set.success",
         "block", blockName.toLowerCase(),
-        "pct", String.valueOf(percentage),
+        "pct", String.valueOf(weight),
         "mine", mineName);
   }
 }

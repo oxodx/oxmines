@@ -1,7 +1,7 @@
 package nl.oxod.oxmines.mine;
 
 import java.security.SecureRandom;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,14 +33,14 @@ public class MineRegenerator {
       Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
       Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
 
-      HashMap<Material, Integer> blocks = new HashMap<>();
+      Map<Material, Double> blocks = new LinkedHashMap<>();
 
       for (String blockName : MinesFile.getConfigurationSection(
           "mines." + mineName + ".blocks")
           .getKeys(false)) {
         for (Material m : Material.values()) {
           if (m.isBlock() && m.name().equals(blockName.toUpperCase())) {
-            blocks.put(m, MinesFile.getInt(
+            blocks.put(m, MinesFile.getDouble(
                 "mines." + mineName + ".blocks." + blockName));
             break;
           }
@@ -56,29 +56,9 @@ public class MineRegenerator {
       List<Block> blocksInArea = BlockSelector.getBlocks(pos1, pos2, pos1.getWorld());
 
       for (Block block : blocksInArea) {
-        boolean choseOne = false;
-        Material highest = null;
-        int highestPercentage = 0;
-
-        for (Map.Entry<Material, Integer> entry : blocks.entrySet()) {
-          if (entry.getValue() <= 0) {
-            continue;
-          }
-
-          boolean chosen = (RANDOM.nextInt(99) + 1) <= entry.getValue();
-          if (chosen) {
-            choseOne = true;
-            block.setType(entry.getKey());
-            break;
-          }
-          if (highestPercentage < entry.getValue()) {
-            highestPercentage = entry.getValue();
-            highest = entry.getKey();
-          }
-        }
-        if (!choseOne && highest != null) {
-          block.setType(highest);
-        }
+        double randomValue = RANDOM.nextDouble();
+        Material selected = selectMaterial(blocks, randomValue);
+        block.setType(selected);
       }
 
       Location warp = MinesFile.getLocation("mines." + mineName + ".warp");
@@ -96,6 +76,43 @@ public class MineRegenerator {
     }
 
     return true;
+  }
+
+  static Material selectMaterial(Map<Material, Double> blocks, double randomValue) {
+    double totalWeight = 0.0;
+    Material fallback = null;
+    double highestWeight = Double.NEGATIVE_INFINITY;
+
+    for (Map.Entry<Material, Double> entry : blocks.entrySet()) {
+      double weight = entry.getValue();
+      if (weight <= 0.0) {
+        continue;
+      }
+      totalWeight += weight;
+      if (weight > highestWeight) {
+        highestWeight = weight;
+        fallback = entry.getKey();
+      }
+    }
+
+    if (totalWeight <= 0.0 || fallback == null) {
+      return blocks.keySet().iterator().next();
+    }
+
+    double threshold = randomValue * totalWeight;
+    double cumulative = 0.0;
+    for (Map.Entry<Material, Double> entry : blocks.entrySet()) {
+      double weight = entry.getValue();
+      if (weight <= 0.0) {
+        continue;
+      }
+      cumulative += weight;
+      if (threshold <= cumulative) {
+        return entry.getKey();
+      }
+    }
+
+    return fallback;
   }
 
   /**

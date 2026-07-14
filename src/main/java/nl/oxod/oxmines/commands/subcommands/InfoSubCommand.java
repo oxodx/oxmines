@@ -1,5 +1,7 @@
 package nl.oxod.oxmines.commands.subcommands;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -98,11 +100,21 @@ public class InfoSubCommand extends SubCommand {
     if (blocksSection != null) {
       Set<String> blockKeys = blocksSection.getKeys(false);
       if (!blockKeys.isEmpty()) {
+        double totalWeight = 0.0;
+        for (String key : blockKeys) {
+          double weight = MinesFile.getDouble("mines." + mineName + ".blocks." + key);
+          if (weight > 0.0) {
+            totalWeight += weight;
+          }
+        }
+
         Messages.send(player, "info.blocks-header");
         for (String key : blockKeys) {
-          int pct = MinesFile.getInt("mines." + mineName + ".blocks." + key);
+          double weight = MinesFile.getDouble("mines." + mineName + ".blocks." + key);
           Messages.send(player, "info.block-entry",
-              "block", key, "pct", String.valueOf(pct));
+              "block", key,
+              "pct", formatPercentage(weight, totalWeight),
+              "weight", formatWeight(weight));
         }
       } else {
         Messages.send(player, "info.blocks-none");
@@ -110,5 +122,40 @@ public class InfoSubCommand extends SubCommand {
     } else {
       Messages.send(player, "info.blocks-none");
     }
+  }
+
+  /**
+   * Formats a block weight as a normalized percentage of the total weight.
+   *
+   * @param weight the block weight
+   * @param totalWeight the total weight of all configured blocks
+   * @return the percentage formatted for display
+   */
+  public static String formatPercentage(double weight, double totalWeight) {
+    if (totalWeight <= 0.0) {
+      return "0%";
+    }
+
+    BigDecimal percentage;
+    if (weight < totalWeight / 100.0) {
+      percentage = BigDecimal.valueOf(weight)
+          .multiply(BigDecimal.valueOf(100.0))
+          .divide(BigDecimal.valueOf(totalWeight), 2, RoundingMode.HALF_UP);
+    } else {
+      percentage = BigDecimal.valueOf(weight)
+          .multiply(BigDecimal.valueOf(100.0))
+          .divide(BigDecimal.valueOf(totalWeight), 2, RoundingMode.DOWN);
+    }
+
+    if (percentage.compareTo(BigDecimal.ZERO) == 0) {
+      return "0%";
+    }
+
+    BigDecimal trimmed = percentage.stripTrailingZeros();
+    return trimmed.toPlainString() + "%";
+  }
+
+  static String formatWeight(double weight) {
+    return BigDecimal.valueOf(weight).stripTrailingZeros().toPlainString();
   }
 }

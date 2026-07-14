@@ -52,7 +52,7 @@ info.reset-no: "<gray>Reset when empty: <red>no</red></gray>"
 info.warp: "<gray>Warp: <white>{x}, {y}, {z}</white> <gray>({yaw}° / {pitch}°)</gray>"
 info.warp-not-set: "<gray>Warp: <red>not set</red></gray>"
 info.blocks-header: "<gray>Blocks:</gray>"
-info.block-entry: "<gray>  - <white>{block}</white><gray>: </gray><white>{pct}%</white></gray>"
+info.block-entry: "<gray>  - <white>{block}</white><gray>: </gray><white>{pct}</white><gray> (weight: <white>{weight}</white>)</gray>"
 info.blocks-none: "<gray>Blocks: <red>none configured</red></gray>"
 
 # ── Rule ─────────────────────────────────────────────────────────────────
@@ -87,10 +87,9 @@ reload.done: "<green>OxMines Reloaded!</green>"
 set.missing-mine: "<red>You must provide a mine to set the blocks for!"
 set.missing-block: "<red>You must provide a block to set!"
 set.invalid-block: "<red>That is not a valid block!"
-set.missing-percentage: "<red>You must provide a percentage!"
-set.invalid-percentage: "<red>The percentage must be a number!"
-set.exceed-100: "<red>That percentage would exceed 100%! Current percentage is: <aqua>{total}%</aqua></red>"
-set.success: "<green>Successfully set <yellow>{block}</yellow> to <aqua>{pct}</aqua> on mine <gold>{mine}</gold></green>"
+set.missing-percentage: "<red>You must provide a weight!"
+set.invalid-percentage: "<red>The weight must be a positive number!"
+set.success: "<green>Successfully set <yellow>{block}</yellow> to weight <aqua>{pct}</aqua> on mine <gold>{mine}</gold></green>"
 
 # ── Unset ────────────────────────────────────────────────────────────────
 unset.missing-mine: "<red>You must provide a mine to unset the block for!"
