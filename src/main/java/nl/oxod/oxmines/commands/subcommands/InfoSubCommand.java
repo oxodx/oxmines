@@ -142,6 +142,7 @@ public class InfoSubCommand extends SubCommand {
   }
 
   private static String formatWeight(double weight) {
-    return BigDecimal.valueOf(weight).stripTrailingZeros().toPlainString();
+    BigDecimal decimal = BigDecimal.valueOf(weight).setScale(2, RoundingMode.HALF_UP);
+    return decimal.stripTrailingZeros().toPlainString();
   }
 }
