@@ -6,7 +6,6 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/flake.lock": true,
     "**/gradlew": true,
     "**/gradlew.bat": true,
     "**/gradle/": true,
