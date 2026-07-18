@@ -40,9 +40,13 @@ public class MineScheduler {
                 MineRegenerator.regenerate(mineName);
                 try {
                   if (MinesFile.getBoolean("mines." + mineName + ".announceRegen")) {
+                    Location pos1 = MinesFile.getLocation("mines." + mineName + ".pos1");
+                    Location pos2 = MinesFile.getLocation("mines." + mineName + ".pos2");
                     for (Player p : OxMines.getInstance().getServer()
                         .getOnlinePlayers()) {
-                      Messages.send(p, "scheduler.regenerated", "mine", mineName);
+                      if (RegionChecker.isPlayerInRegion(p, pos1, pos2)) {
+                        Messages.send(p, "scheduler.regenerated", "mine", mineName);
+                      }
                     }
                   }
                 } catch (Exception ignored) { // skip announce errors
@@ -126,19 +130,21 @@ public class MineScheduler {
                       }
                     }
 
-                    if (!foundAnything) {
-                      MineRegenerator.regenerate(mineName);
-                      try {
-                      if (MinesFile.getBoolean("mines." + mineName + ".announceRegen")) {
-                          for (Player p : OxMines.getInstance()
-                              .getServer().getOnlinePlayers()) {
-                            Messages.send(p, "scheduler.regenerated",
-                                "mine", mineName);
+                      if (!foundAnything) {
+                        MineRegenerator.regenerate(mineName);
+                        try {
+                        if (MinesFile.getBoolean("mines." + mineName + ".announceRegen")) {
+                            for (Player p : OxMines.getInstance()
+                                .getServer().getOnlinePlayers()) {
+                              if (RegionChecker.isPlayerInRegion(p, pos1, pos2)) {
+                                Messages.send(p, "scheduler.regenerated",
+                                    "mine", mineName);
+                              }
+                            }
                           }
+                        } catch (Exception ignored) { // skip announce errors
                         }
-                      } catch (Exception ignored) { // skip announce errors
                       }
-                    }
                   }
                 } catch (Exception ignored) { // skip check errors
                 }
