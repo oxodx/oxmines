@@ -15,6 +15,7 @@ import nl.oxod.oxmines.migrations.MigrationRunner;
 import nl.oxod.oxmines.mine.MinesFile;
 import nl.oxod.oxmines.mine.TimerLoader;
 import nl.oxod.oxmines.region.SelectionManager;
+import org.bstats.bukkit.Metrics;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -26,6 +27,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * </p>
  */
 public class OxMines extends JavaPlugin implements Listener {
+  private static final int BSTATS_PLUGIN_ID = 32718;
   private static OxMines instance;
 
   @SuppressFBWarnings(
@@ -53,6 +55,9 @@ public class OxMines extends JavaPlugin implements Listener {
     }
 
     instance = this;
+
+    // Initialize bStats metrics
+    new Metrics(this, BSTATS_PLUGIN_ID);
 
     getConfig().options().copyDefaults();
     saveDefaultConfig();

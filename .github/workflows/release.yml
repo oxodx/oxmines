@@ -27,7 +27,7 @@ jobs:
           distribution: "microsoft"
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
-      - name: Publish with Gradle
+      - name: Build and Release
         run: ./gradlew -Pver=${{ github.ref_name }} release
       - name: Upload build results
         uses: actions/upload-artifact@v7

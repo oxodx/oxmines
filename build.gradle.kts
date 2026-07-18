@@ -71,6 +71,7 @@ val mockitoAgent = configurations.create("mockitoAgent")
 
 dependencies {
   compileOnly("io.papermc.paper:paper-api:26.1.2.build.74-stable")
+  implementation("org.bstats:bstats-bukkit:3.2.1")
 
   compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.13") {
     exclude(group = "com.google.guava", module = "guava")
@@ -138,6 +139,19 @@ val shadowJar = tasks.named<ShadowJar>("shadowJar") {
 
 tasks.jar {
   enabled = false
+}
+
+tasks.shadowJar {
+  configurations = project.configurations.runtimeClasspath.map { setOf(it) }
+
+  dependencies {
+    // Only merge bStats into the final jar, no other dependencies
+    exclude { it.moduleGroup != "org.bstats" }
+  }
+
+  // Relocate bStats into the plugin's package to avoid conflicts with other
+  // plugins using bStats
+  relocate("org.bstats", project.group.toString())
 }
 
 tasks.assemble {
