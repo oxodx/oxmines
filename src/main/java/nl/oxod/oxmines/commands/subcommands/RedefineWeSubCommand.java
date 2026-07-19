@@ -16,7 +16,7 @@ import nl.oxod.oxmines.region.SelectionManager;
 import nl.oxod.oxmines.region.SelectionRegion;
 import nl.oxod.oxmines.region.Vector3;
 
-/** Subcommand to redefine an existing mine's boundary using WorldEdit selection (or manual pos1/pos2). */
+/** Subcommand to redefine a mine's boundary using WorldEdit or manual selection. */
 public class RedefineWeSubCommand extends SubCommand {
   @Override
   public String getName() {
