@@ -24,6 +24,7 @@ import nl.oxod.oxmines.commands.subcommands.InfoSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ListSubCommand;
 import nl.oxod.oxmines.commands.subcommands.Pos1SubCommand;
 import nl.oxod.oxmines.commands.subcommands.Pos2SubCommand;
+import nl.oxod.oxmines.commands.subcommands.RedefineSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ReloadSubCommand;
 import nl.oxod.oxmines.commands.subcommands.RemoveSubCommand;
 import nl.oxod.oxmines.commands.subcommands.ResetSubCommand;
@@ -52,6 +53,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
     subCommands.add(new RemoveSubCommand());
     subCommands.add(new ListSubCommand());
     subCommands.add(new InfoSubCommand());
+    subCommands.add(new RedefineSubCommand());
     subCommands.add(new SetSubCommand());
     subCommands.add(new UnsetSubCommand());
     subCommands.add(new SetWarpSubCommand());
@@ -82,7 +84,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
     switch (args.length) {
       case 1 -> {
         List<String> possibilities = List.of(
-            "add", "clear", "remove", "list", "info", "set", "unset",
+            "add", "clear", "remove", "list", "info", "redefine", "set", "unset",
             "setwarp", "delwarp", "tp", "reset", "rule", "reload",
             "pos1", "pos2", "wand");
         return possibilities.stream()
@@ -91,7 +93,7 @@ public class CommandManager implements TabCompleter, CommandExecutor {
       }
       case 2 -> {
         if (List.of("remove", "rule", "set", "unset", "setwarp", "delwarp",
-            "reset", "tp", "clear", "info").contains(args[0])) {
+            "reset", "tp", "clear", "info", "redefine").contains(args[0])) {
           try {
             Set<String> keys = Objects.requireNonNull(
                 MinesFile.getConfigurationSection("mines"))
