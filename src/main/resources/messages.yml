@@ -19,11 +19,18 @@ general.something-wrong: "<red>Something went wrong! Make sure you have blocks s
 
 # ── Add ──────────────────────────────────────────────────────────────────
 add.missing-name: "<red>You must provide a unique name for this mine!"
-add.not-unique: "<red>Mine name must be unique! You can find a list of mines by doing <gray>/oxmines list</gray>"
+add.not-unique: "<red>Mine name must be unique! You can find a list of mines by doing <gray>/oxmines list</gray> or redefine an existing one with <gray>/oxmines redefine {mine}</gray>"
 add.no-selection: "<red>You do not have any area selected!"
 add.pos1-missing: "<red>Position 1 not set!"
 add.pos2-missing: "<red>Position 2 not set!"
 add.success: "<green>Successfully added mine <gold>{mine}</gold></green>!"
+
+# ── Redefine ─────────────────────────────────────────────────────────────
+redefine.missing-name: "<red>You must provide the name of the mine you'd like to redefine!"
+redefine.no-selection: "<red>You do not have any area selected!"
+redefine.pos1-missing: "<red>Position 1 not set!"
+redefine.pos2-missing: "<red>Position 2 not set!"
+redefine.success: "<green>Successfully redefined mine <gold>{mine}</gold></green>!"
 
 # ── Clear ────────────────────────────────────────────────────────────────
 clear.missing-name: "<red>You need to provide a mine to clear!"
