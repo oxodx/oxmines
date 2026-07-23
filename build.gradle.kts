@@ -166,7 +166,7 @@ tasks.register("printProjectName") {
 }
 
 val release by tasks.registering {
-  dependsOn("build")
+  dependsOn(shadowJar)
 
   doLast {
     if (!version.toString().endsWith("-SNAPSHOT")) {
@@ -180,14 +180,20 @@ if (System.getenv("MODRINTH") != null) {
   modrinth {
     token.set(System.getenv("MODRINTH"))
     projectId.set("oxmines")
-    versionNumber.set("0.1.5")
+    versionNumber.set(project.version.toString())
     versionType.set("beta")
-    uploadFile.set(release)
+    
+    uploadFile.set(shadowJar)
+    
     gameVersions.addAll("26.2", "26.1.1", "26.1.2", "26.1")
     changelog = System.getenv("CHANGELOG")
     loaders.addAll("paper", "spigot", "bukkit")
     dependencies {
       optional.project("worldedit")
     }
+  }
+
+  release {
+    finalizedBy(tasks.modrinth)
   }
 }
