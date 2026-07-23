@@ -131,69 +131,49 @@ tasks.withType<SpotBugsTask>().configureEach {
   }
 }
 
-val shadowJar = tasks.named<ShadowJar>("shadowJar") {
+val shadowJarTask = tasks.named<ShadowJar>("shadowJar") {
   archiveClassifier.set("")
+  archiveFileName.set("${rootProject.name}.jar")
   mergeServiceFiles()
-  minimize {
+  minimize {}
+
+  configurations = project.configurations.runtimeClasspath.map { setOf(it) }
+
+  dependencies {
+    exclude { it.moduleGroup != "org.bstats" }
   }
+
+  relocate("org.bstats", project.group.toString())
 }
 
 tasks.jar {
   enabled = false
 }
 
-tasks.shadowJar {
-  configurations = project.configurations.runtimeClasspath.map { setOf(it) }
-
+modrinth {
+  token.set(System.getenv("MODRINTH") ?: "")
+  projectId.set("oxmines")
+  versionNumber.set(project.version.toString())
+  versionType.set("beta")
+  
+  uploadFile.set(shadowJarTask.flatMap { it.archiveFile })
+  
+  gameVersions.addAll("26.2", "26.1.1", "26.1.2", "26.1")
+  changelog = System.getenv("CHANGELOG") ?: ""
+  loaders.addAll("paper", "spigot", "bukkit")
   dependencies {
-    // Only merge bStats into the final jar, no other dependencies
-    exclude { it.moduleGroup != "org.bstats" }
-  }
-
-  // Relocate bStats into the plugin's package to avoid conflicts with other
-  // plugins using bStats
-  relocate("org.bstats", project.group.toString())
-}
-
-tasks.assemble {
-  dependsOn(shadowJar)
-}
-
-tasks.register("printProjectName") {
-  doLast {
-    println(rootProject.name)
+    optional.project("worldedit")
   }
 }
 
-val release by tasks.registering {
-  dependsOn(shadowJar)
-
-  doLast {
-    if (!version.toString().endsWith("-SNAPSHOT")) {
-      val releaseJar = layout.buildDirectory.file("libs/${rootProject.name}.jar").get().asFile
-      shadowJar.get().archiveFile.get().asFile.renameTo(releaseJar)
-    }
-  }
+tasks.modrinth {
+  dependsOn(shadowJarTask)
 }
 
-if (System.getenv("MODRINTH") != null) {
-  modrinth {
-    token.set(System.getenv("MODRINTH"))
-    projectId.set("oxmines")
-    versionNumber.set(project.version.toString())
-    versionType.set("beta")
-    
-    uploadFile.set(shadowJar)
-    
-    gameVersions.addAll("26.2", "26.1.1", "26.1.2", "26.1")
-    changelog = System.getenv("CHANGELOG")
-    loaders.addAll("paper", "spigot", "bukkit")
-    dependencies {
-      optional.project("worldedit")
-    }
-  }
+tasks.register("release") {
+  dependsOn(shadowJarTask)
 
-  release {
+  if (!System.getenv("MODRINTH").isNullOrEmpty()) {
     finalizedBy(tasks.modrinth)
   }
 }
