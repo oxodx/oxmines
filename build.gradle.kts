@@ -184,6 +184,7 @@ if (System.getenv("MODRINTH") != null) {
     versionType.set("beta")
     uploadFile.set(release)
     gameVersions.addAll("26.2", "26.1.1", "26.1.2", "26.1")
+    changelog = System.getenv("CHANGELOG")
     loaders.addAll("paper", "spigot", "bukkit")
     dependencies {
       optional.project("worldedit")
