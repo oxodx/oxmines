@@ -178,7 +178,7 @@ val release by tasks.registering {
 
 if (System.getenv("MODRINTH") != null) {
   modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN"))
+    token.set(System.getenv("MODRINTH"))
     projectId.set("oxmines")
     versionNumber.set("0.1.5")
     versionType.set("beta")

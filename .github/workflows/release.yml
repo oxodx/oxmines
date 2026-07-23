@@ -4,9 +4,10 @@ permissions:
   contents: read
 
 on:
-  push:
-    tags:
-      - "v*" # For v1.0, v0.1.0, etc
+  release:
+    types:
+      - published
+  workflow_dispatch:
 
 concurrency:
   group: ${{ format('{0}-{1}', github.workflow, github.ref) }}
@@ -18,8 +19,16 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
+      - uses: actions/cache@v6
+        with:
+          path: |
+            ~/.gradle/loom-cache
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-
+      - uses: actions/checkout@v7
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
@@ -29,6 +38,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
       - name: Build and Release
         run: ./gradlew -Pver=${{ github.ref_name }} release
+        env:
+          MODRINTH: ${{ secrets.MODRINTH }}
+          CHANGELOG: ${{ github.event.release.body }}
       - name: Upload build results
         uses: actions/upload-artifact@v7
         with:
