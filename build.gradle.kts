@@ -8,6 +8,7 @@ plugins {
   checkstyle
   id("com.github.spotbugs") version "6.5.9"
   id("com.gradleup.shadow") version "9.6.0"
+  id("com.modrinth.minotaur") version "2.9.0"
   `java-library`
   java
 }
@@ -164,13 +165,28 @@ tasks.register("printProjectName") {
   }
 }
 
-tasks.register("release") {
+val release by tasks.registering {
   dependsOn("build")
 
   doLast {
     if (!version.toString().endsWith("-SNAPSHOT")) {
       val releaseJar = layout.buildDirectory.file("libs/${rootProject.name}.jar").get().asFile
       shadowJar.get().archiveFile.get().asFile.renameTo(releaseJar)
+    }
+  }
+}
+
+if (System.getenv("MODRINTH") != null) {
+  modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("oxmines")
+    versionNumber.set("0.1.5")
+    versionType.set("beta")
+    uploadFile.set(release)
+    gameVersions.addAll("26.2", "26.1.1", "26.1.2", "26.1")
+    loaders.addAll("paper", "spigot", "bukkit")
+    dependencies {
+      optional.project("worldedit")
     }
   }
 }
