@@ -25,6 +25,7 @@ All commands require `oxmines.any` to be usable at all. Each subcommand also req
 | `/oxmines pos1`                            | `oxmines.pos1`    | Set position 1 for manual region selection                 |
 | `/oxmines pos2`                            | `oxmines.pos2`    | Set position 2 for manual region selection                 |
 | `/oxmines reload`                          | `oxmines.reload`  | Reload config, messages, and scheduled tasks               |
+| `/oxmines redefine <mine>`                 | `oxmines.redefine`| Redefines an existing mine with new selection              | 
 | `/oxmines remove <mine>`                   | `oxmines.remove`  | Delete a mine entirely                                     |
 | `/oxmines reset <mine>`                    | `oxmines.reset`   | Immediately regenerate the mine's blocks                   |
 | `/oxmines rule <mine> set <rule> <value>`  | `oxmines.rule`    | Set a mine rule (regenTime, announceRegen, resetWhenEmpty) |
