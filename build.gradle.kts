@@ -74,7 +74,7 @@ dependencies {
   compileOnly("io.papermc.paper:paper-api:26.2.build.119-stable")
   implementation("org.bstats:bstats-bukkit:3.2.1")
 
-  compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.13") {
+  compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.4.5") {
     exclude(group = "com.google.guava", module = "guava")
     exclude(group = "com.google.code.gson", module = "gson")
     exclude(group = "it.unimi.dsi", module = "fastutil")
