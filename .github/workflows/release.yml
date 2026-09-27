@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew -Pver=${{ github.ref_name }} release modrinth
         env:
           MODRINTH: ${{ secrets.MODRINTH }}
-          CHANGELOG: ${{ github.event.release.body }}e
+          CHANGELOG: ${{ github.event.release.body }}
       - name: Upload build results
         uses: actions/upload-artifact@v7
         with:
