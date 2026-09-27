@@ -88,8 +88,8 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
 
-  testImplementation("org.mockito:mockito-core:5.23.0")
-  mockitoAgent("org.mockito:mockito-core:5.23.0") { isTransitive = false }
+  testImplementation("org.mockito:mockito-core:5.24.0")
+  mockitoAgent("org.mockito:mockito-core:5.24.0") { isTransitive = false }
 }
 
 tasks.test {
